@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamarana Bah | Lama-dev - Développeur Web</title>
+    <!-- FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#hero" class="logo">Lama<span>-dev</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#hero">Accueil</a></li>
+                    <li><a href="#about">À propos</a></li>
+                    <li><a href="#skills">Compétences</a></li>
+                    <li><a href="#projects">Projets</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container hero-container">
+            <div class="hero-text">
+                <span class="badge">Bienvenue sur mon portfolio</span>
+                <h1>Bonjour, je suis <br><span class="highlight">Lamarana Bah</span></h1>
+                <h2>Développeur Web & Spécialiste CMS</h2>
+                <p>Je suis passionné par le développement web et la création de solutions numériques modernes, fonctionnelles et responsives.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Me Contacter</a>
+                    <a href="#projects" class="btn btn-secondary">Voir mes projets</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-wrapper">
+                    <!-- Ton image ici -->
+                    <img src="lamarana.jpg" alt="Lamarana Bah - Lama-dev">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À Propos -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">À Propos de <span>Moi</span></h2>
+            <div class="about-content">
+                <p>Moi c'est <strong>Lamarana Bah</strong>, plus connu sous le nom de <strong>Lama-dev</strong>. Je conçois des sites web dynamiques, réactifs et esthétiques. Que ce soit pour concevoir une interface épurée, intégrer une maquette avec Bootstrap, développer des fonctionnalités dynamiques en PHP ou créer un site complet sous WordPress, j'apporte une solution technique adaptée à chaque besoin.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Compétences -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Mes <span>Compétences</span></h2>
+            
+            <h3 class="subsection-title"><i class="fa-solid fa-code"></i> Développement Web</h3>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fa-brands fa-html5 skill-icon html"></i>
+                    <h4>HTML5</h4>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-brands fa-css3-alt skill-icon css"></i>
+                    <h4>CSS3</h4>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-brands fa-bootstrap skill-icon bootstrap"></i>
+                    <h4>Bootstrap</h4>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-brands fa-php skill-icon php"></i>
+                    <h4>PHP</h4>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-brands fa-wordpress skill-icon wordpress"></i>
+                    <h4>WordPress</h4>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-brands fa-js skill-icon js"></i>
+                    <h4>JavaScript</h4>
+                </div>
+            </div>
+
+            <h3 class="subsection-title"><i class="fa-solid fa-briefcase"></i> Outils Bureautiques</h3>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fa-file-word skill-icon word"></i>
+                    <h4>Microsoft Word</h4>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-file-excel skill-icon excel"></i>
+                    <h4>Microsoft Excel</h4>
+                </div>
+                <div class="skill-card">
+                    <i class="fa-file-powerpoint skill-icon powerpoint"></i>
+                    <h4>PowerPoint</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Projets -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Mes <span>Projets</span></h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Site E-commerce WordPress</h3>
+                        <p>Création d'une boutique en ligne complète et sécurisée sous WordPress.</p>
+                        <span class="tag">WordPress</span> <span class="tag">CSS</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Application Web PHP / MySQL</h3>
+                        <p>Gestion de données et espaces utilisateurs sur mesure.</p>
+                        <span class="tag">PHP</span> <span class="tag">Bootstrap</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Landing Page Responsive</h3>
+                        <p>Intégration d'une maquette moderne adaptée mobile, tablette et desktop.</p>
+                        <span class="tag">HTML</span> <span class="tag">CSS</span> <span class="tag">JS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Me <span>Contacter</span></h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Votre nom" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Votre email" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Votre message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer le message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Lamarana Bah (Lama-dev). Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
