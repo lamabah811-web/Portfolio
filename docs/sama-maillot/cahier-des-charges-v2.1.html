@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>SAMA MAILLOT — Cahier des charges v2.1</title>
+<style>
+  @page { size: A4; margin: 22mm 18mm 20mm 18mm; }
+  :root { --noir:#111111; --or:#D4AF37; --or-clair:#FBF6E6; --gris:#555; --bord:#d9d9d9; --rouge-clair:#FDF0EE; --rouge:#B5432F; }
+  * { box-sizing: border-box; }
+  body { font-family: "DejaVu Sans", "Liberation Sans", Arial, sans-serif; font-size: 9.6pt; line-height: 1.5; color: #222; margin: 0; background:#fff; }
+  h1 { font-size: 17pt; color: var(--noir); margin: 0 0 8px; padding-bottom: 5px; border-bottom: 2px solid var(--or); page-break-after: avoid; }
+  h1 .num { color: var(--or); }
+  h2 { font-size: 12pt; color: #333; margin: 16px 0 6px; page-break-after: avoid; }
+  h3 { font-size: 10.5pt; color: #444; margin: 12px 0 4px; page-break-after: avoid; }
+  section.chap { margin-top: 26px; }
+  section.chap.saut { page-break-before: always; margin-top: 0; }
+  p { margin: 4px 0 8px; }
+  ul, ol { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 6px 0 12px; font-size: 8.8pt; }
+  th, td { border: 1px solid var(--bord); padding: 5px 7px; vertical-align: top; text-align: left; word-wrap: break-word; overflow-wrap: anywhere; }
+  th { background: var(--noir); color: #fff; font-weight: bold; }
+  tr { page-break-inside: avoid; }
+  tr.long { page-break-inside: auto; }
+  thead { display: table-header-group; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.4pt; background: #f3f3f3; padding: 0 3px; border-radius: 3px; }
+  pre { font-family: "DejaVu Sans Mono", monospace; font-size: 8pt; background: #f6f6f6; border: 1px solid var(--bord); padding: 8px 10px; line-height: 1.35; white-space: pre-wrap; page-break-inside: avoid; }
+  .note { background: var(--or-clair); border-left: 4px solid var(--or); padding: 7px 10px; margin: 8px 0 12px; page-break-inside: avoid; }
+  .alerte { background: var(--rouge-clair); border-left: 4px solid var(--rouge); padding: 7px 10px; margin: 8px 0 12px; page-break-inside: avoid; }
+  .tag { display: inline-block; font-size: 7.6pt; font-weight: bold; padding: 0 5px; border-radius: 3px; color: #fff; background: var(--noir); }
+  .tag.v11 { background: #7a6420; }
+  .tag.v2 { background: #888; }
+  .w20 { width: 20%; } .w25 { width: 25%; } .w30 { width: 30%; } .w15 { width: 15%; } .w35 { width: 35%; } .w12 { width: 12%; } .w40 { width: 40%; }
+
+  /* Couverture */
+  .couverture { height: 245mm; display: flex; flex-direction: column; justify-content: center; text-align: center; page-break-after: always; }
+  .couverture .logo { font-size: 38pt; font-weight: bold; color: var(--or); letter-spacing: 2px; }
+  .couverture .bande { height: 4px; width: 90px; background: var(--noir); margin: 14px auto 18px; }
+  .couverture .sous { font-size: 13pt; color: var(--noir); letter-spacing: 1px; }
+  .couverture .desc { font-size: 11.5pt; color: var(--gris); margin: 24px 40px 36px; }
+  .couverture table { width: 82%; margin: 0 auto; font-size: 9pt; }
+  .couverture td:first-child { font-weight: bold; background: #f4f4f4; width: 32%; }
+  .couverture .palette { margin-top: 30px; font-size: 9.5pt; color: var(--gris); }
+  .pastille { display:inline-block; width: 13px; height: 13px; border-radius: 50%; vertical-align: -2px; margin: 0 3px 0 10px; border: 1px solid #999; }
+
+  /* Sommaire */
+  .sommaire { page-break-after: always; }
+  .sommaire ol { columns: 2; column-gap: 28px; padding-left: 22px; font-size: 9.4pt; }
+  .sommaire li { margin: 3px 0; break-inside: avoid; }
+  .sommaire .annexes { margin-top: 10px; font-size: 9.4pt; }
+</style>
+</head>
+<body>
+
+<!-- ===================== COUVERTURE ===================== -->
+<div class="couverture">
+  <div class="logo">SAMA MAILLOT</div>
+  <div class="bande"></div>
+  <div class="sous">CAHIER DES CHARGES FONCTIONNEL ET TECHNIQUE</div>
+  <div class="desc">Marketplace sénégalaise de vente et d’achat de maillots de football, avec paiement sécurisé, paiement à la livraison et commande via WhatsApp</div>
+  <table>
+    <tr><td>Version</td><td>2.1 — révision complète adaptée au contexte sénégalais</td></tr>
+    <tr><td>Remplace</td><td>Version 2.0 (version détaillée)</td></tr>
+    <tr><td>Technologies</td><td>PHP 8.2 • MySQL 8 / MariaDB • PDO • HTML5 • CSS3 • Bootstrap 5 • JavaScript vanilla</td></tr>
+    <tr><td>Architecture</td><td>Application PHP traditionnelle, rendu côté serveur (SSR)</td></tr>
+    <tr><td>Devise</td><td>Franc CFA (FCFA), montants entiers sans décimales</td></tr>
+    <tr><td>Zone cible</td><td>Sénégal (Dakar et régions)</td></tr>
+    <tr><td>Hébergement</td><td>Local XAMPP → recette Infomaniak → production Infomaniak</td></tr>
+    <tr><td>Statut</td><td>Référence fonctionnelle et technique pour le développement</td></tr>
+  </table>
+  <div class="palette">Palette graphique :
+    <span class="pastille" style="background:#111111"></span>#111111 noir
+    <span class="pastille" style="background:#D4AF37"></span>#D4AF37 or
+    <span class="pastille" style="background:#FFFFFF"></span>#FFFFFF blanc
+  </div>
+</div>
+
+<!-- ===================== SOMMAIRE ===================== -->
+<div class="sommaire">
+  <h1>Sommaire</h1>
+  <ol>
+    <li>Présentation générale</li>
+    <li>Contexte sénégalais et problématique</li>
+    <li>Objectifs du projet</li>
+    <li>Périmètre et versions</li>
+    <li>Acteurs, rôles et droits</li>
+    <li>Modèle économique</li>
+    <li>Fonctionnalités publiques</li>
+    <li>Comptes utilisateurs et authentification</li>
+    <li>Espace vendeur</li>
+    <li>Catalogue, recherche et fiche maillot</li>
+    <li>Panier</li>
+    <li>Commandes et gestion du stock</li>
+    <li>Paiements et paiement sécurisé (séquestre)</li>
+    <li>Livraison et code de livraison</li>
+    <li>Portefeuille vendeur et versements</li>
+    <li>Réclamations et litiges</li>
+    <li>Commande via WhatsApp</li>
+    <li>Abonnements vendeurs</li>
+    <li>Mise en avant des maillots</li>
+    <li>Notes et avis sur les vendeurs</li>
+    <li>Signalements et suspensions</li>
+    <li>Notifications (in-app, SMS, WhatsApp, e-mail)</li>
+    <li>Administration et modération</li>
+    <li>Sécurité</li>
+    <li>Conformité légale au Sénégal</li>
+    <li>Base de données</li>
+    <li>Architecture technique et tâches planifiées</li>
+    <li>Organisation des fichiers</li>
+    <li>Interface, UX/UI, responsive et performance</li>
+    <li>SEO et accessibilité</li>
+    <li>Gestion des erreurs et journalisation</li>
+    <li>Tests et recette</li>
+    <li>Hébergement, déploiement et maintenance</li>
+    <li>Planning, lots et jalons</li>
+    <li>Critères d’acceptation</li>
+    <li>Parcours utilisateurs de référence</li>
+    <li>Évolutions futures (V2)</li>
+    <li>Conclusion</li>
+  </ol>
+  <div class="annexes"><strong>Annexes :</strong> A. Paramètres configurables • B. Hypothèses retenues à confirmer • C. Glossaire</div>
+</div>
+
+<!-- ===================== 1 ===================== -->
+<section class="chap">
+<h1><span class="num">1.</span> Présentation générale</h1>
+<p>SAMA MAILLOT est une marketplace web spécialisée dans la vente de maillots de football au Sénégal. Elle met en relation des <strong>clients</strong> et des <strong>vendeurs indépendants</strong> qui disposent chacun d’une boutique en ligne sur la plateforme.</p>
+<p>La plateforme se distingue par trois engagements :</p>
+<ul>
+  <li><strong>Confiance</strong> : en paiement en ligne, l’argent du client est conservé par la plateforme et n’est reversé au vendeur qu’une fois la livraison confirmée et sans réclamation (paiement sécurisé).</li>
+  <li><strong>Habitudes locales respectées</strong> : paiement à la livraison, Wave / Orange Money, commande via WhatsApp, notifications par SMS.</li>
+  <li><strong>Simplicité</strong> : un site rapide sur mobile et en 4G, en français, avec des prix en FCFA.</li>
+</ul>
+<p>Principe directeur : <em>simplicité pour l’utilisateur, contrôle côté serveur, sécurité par défaut, données réelles plutôt que faux chiffres, architecture maintenable.</em></p>
+</section>
+
+<!-- ===================== 2 ===================== -->
+<section class="chap">
+<h1><span class="num">2.</span> Contexte sénégalais et problématique</h1>
+<h2>2.1 Constat</h2>
+<ul>
+  <li>La vente de maillots se fait aujourd’hui majoritairement sur WhatsApp, Instagram, TikTok et Facebook, sans catalogue structuré, sans suivi de commande et sans garantie pour l’acheteur.</li>
+  <li>Les acheteurs ont du mal à trouver rapidement un maillot précis (équipe, saison, taille, prix) et craignent les arnaques (paiement envoyé, maillot jamais reçu ou différent des photos).</li>
+  <li>Les vendeurs n’ont pas d’espace centralisé pour publier leurs maillots, gérer leur stock et suivre leurs commandes.</li>
+</ul>
+<h2>2.2 Spécificités du marché prises en compte</h2>
+<table>
+  <thead><tr><th class="w30">Spécificité</th><th>Réponse de SAMA MAILLOT</th></tr></thead>
+  <tr><td>Paiement mobile dominant (Wave, Orange Money, Free Money)</td><td>Paiement en ligne via un agrégateur agréé acceptant les portefeuilles mobiles.</td></tr>
+  <tr><td>Forte habitude du paiement à la livraison</td><td>Paiement à la livraison disponible, sécurisé par un code de livraison et la vérification du numéro.</td></tr>
+  <tr><td>WhatsApp est le canal de vente principal</td><td>Bouton « Commander via WhatsApp » qui crée d’abord la commande sur le site, puis ouvre la discussion.</td></tr>
+  <tr><td>Méfiance envers les vendeurs en ligne</td><td>Paiement sécurisé (séquestre), avis vérifiés, signalements, suspension automatique.</td></tr>
+  <tr><td>Navigation surtout sur smartphone, en 3G/4G, avec forfaits limités</td><td>Conception mobile d’abord, images WebP compressées, pages légères (moins de 1 Mo).</td></tr>
+  <tr><td>L’e-mail est peu consulté</td><td>Notifications critiques par SMS ; e-mail en complément.</td></tr>
+  <tr><td>Livraison par le vendeur ou un livreur moto (« Tiak-Tiak »)</td><td>Livraison gérée par le vendeur, frais par zone fixés par le vendeur et payés par le client.</td></tr>
+</table>
+</section>
+
+<!-- ===================== 3 ===================== -->
+<section class="chap">
+<h1><span class="num">3.</span> Objectifs du projet</h1>
+<h2>3.1 Objectif général</h2>
+<p>Créer la marketplace de référence pour l’achat et la vente de maillots de football au Sénégal, sûre pour l’acheteur et rentable pour le vendeur.</p>
+<h2>3.2 Objectifs spécifiques</h2>
+<ul>
+  <li>Permettre de trouver un maillot en quelques secondes (recherche par nom, catégories, filtres).</li>
+  <li>Classer les maillots par catégories : équipes nationales, clubs, rétro.</li>
+  <li>Permettre à chaque vendeur de créer sa boutique et de publier librement ses maillots (tailles, stock, photos, prix).</li>
+  <li>Proposer trois façons de commander : paiement en ligne sécurisé, paiement à la livraison, commande via WhatsApp.</li>
+  <li>Protéger l’acheteur : argent conservé par la plateforme jusqu’à confirmation de la livraison.</li>
+  <li>Permettre au client de confirmer la réception, de réclamer, de noter et de signaler le vendeur.</li>
+  <li>Financer la plateforme par un abonnement vendeur (14 jours d’essai puis 3 000 FCFA/mois) et par la mise en avant payante.</li>
+  <li>Donner à l’administrateur les outils de modération, d’arbitrage des litiges et de gestion financière.</li>
+</ul>
+<h2>3.3 Indicateurs de réussite (6 mois après lancement)</h2>
+<table>
+  <thead><tr><th class="w40">Indicateur</th><th>Cible indicative</th></tr></thead>
+  <tr><td>Vendeurs abonnés actifs</td><td>50</td></tr>
+  <tr><td>Maillots publiés</td><td>1 000</td></tr>
+  <tr><td>Commandes reçues (confirmées par le client)</td><td>300 par mois</td></tr>
+  <tr><td>Taux de litiges</td><td>Moins de 3 % des commandes</td></tr>
+  <tr><td>Note moyenne des vendeurs</td><td>4 étoiles ou plus</td></tr>
+</table>
+<p class="note">Ces cibles servent au pilotage. Elles ne doivent jamais être affichées sur le site comme des chiffres réels.</p>
+</section>
+
+<!-- ===================== 4 ===================== -->
+<section class="chap">
+<h1><span class="num">4.</span> Périmètre et versions</h1>
+<p>Chaque fonctionnalité est rattachée à une version. Il n’y a plus de fonctionnalité « si retenue » : elle est soit dans la <span class="tag">V1</span>, soit dans la <span class="tag v11">V1.1</span>, soit dans la <span class="tag v2">V2</span>.</p>
+<table>
+  <thead><tr><th class="w15">Version</th><th>Contenu</th></tr></thead>
+  <tr class="long"><td><span class="tag">V1</span><br>Lancement</td><td>Site public responsive, mode clair/sombre ; comptes (e-mail, Google, téléphone) ; mot de passe oublié par SMS ou e-mail ; catalogue, recherche, filtres de base (catégorie, prix, taille) ; favoris ; panier invité ; espace vendeur complet ; frais de livraison par zone ; commandes avec paiement à la livraison et commande via WhatsApp ; code de livraison ; paiement en ligne sécurisé, portefeuille vendeur et versements ; litiges ; abonnements avec paiement Wave manuel validé ; notes et avis ; signalements et suspension automatique ; notifications in-app, SMS et e-mail ; administration complète ; journal d’audit ; pages légales et FAQ.</td></tr>
+  <tr><td><span class="tag v11">V1.1</span><br>+2 mois</td><td>Mise en avant payante ; filtres avancés (saison, état, type, authenticité, disponibilité) ; statistiques vendeur détaillées.</td></tr>
+  <tr><td><span class="tag v2">V2</span><br>Plus tard</td><td>Commission sur les ventes en ligne ; notifications WhatsApp Business API ; connexion Apple ; badge « Vendeur vérifié » ; retours et échanges encadrés ; codes promotionnels ; application mobile ; API publique.</td></tr>
+</table>
+<h2>4.1 Hors périmètre</h2>
+<ul>
+  <li>Application mobile native Android/iOS (le site est conçu pour être utilisé comme une application sur mobile).</li>
+  <li>Architecture React / Vite / TypeScript ou tout framework JavaScript.</li>
+  <li>Chat interne client-vendeur (remplacé par WhatsApp).</li>
+  <li>Service de livraison géré par la plateforme.</li>
+  <li>Fonctionnalités de réseau social.</li>
+  <li>Paiements réels pendant les phases de développement et de recette (mode test uniquement).</li>
+</ul>
+</section>
+
+<!-- ===================== 5 ===================== -->
+<section class="chap">
+<h1><span class="num">5.</span> Acteurs, rôles et droits</h1>
+<table>
+  <thead><tr><th class="w20">Acteur</th><th>Responsabilités principales</th></tr></thead>
+  <tr><td>Visiteur</td><td>Consulter l’accueil, le catalogue, les boutiques et les fiches ; ajouter au panier ; poser une question à un vendeur sur WhatsApp.</td></tr>
+  <tr><td>Client</td><td>Commander, payer, suivre ses commandes, confirmer la réception, réclamer, noter et signaler les vendeurs, gérer ses favoris et son compte.</td></tr>
+  <tr><td>Vendeur</td><td>Gérer sa boutique, ses maillots, son stock, ses frais de livraison, ses commandes, son abonnement et son portefeuille ; répondre aux avis et aux litiges.</td></tr>
+  <tr><td>Administrateur</td><td>Modérer, arbitrer les litiges, valider les paiements d’abonnement, effectuer les versements, gérer les catégories, les paramètres et les comptes.</td></tr>
+  <tr><td>Système (tâches planifiées)</td><td>Débloquer les fonds, annuler les commandes expirées, envoyer les rappels, faire expirer et masquer les abonnements.</td></tr>
+</table>
+<h2>5.1 Matrice des droits</h2>
+<table>
+  <thead><tr><th style="width:30%">Action</th><th style="width:14%">Visiteur</th><th style="width:18%">Client</th><th style="width:22%">Vendeur</th><th style="width:16%">Admin</th></tr></thead>
+  <tr><td>Consulter le catalogue</td><td>Oui</td><td>Oui</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Ajouter au panier</td><td>Oui (session)</td><td>Oui</td><td>Oui</td><td>Non</td></tr>
+  <tr><td>Passer une commande</td><td>Non</td><td>Oui</td><td>Oui, sauf dans sa propre boutique</td><td>Non</td></tr>
+  <tr><td>Noter / signaler un vendeur</td><td>Non</td><td>Oui, après commande</td><td>Oui, s’il a acheté chez un autre vendeur</td><td>Non</td></tr>
+  <tr><td>Publier un maillot</td><td>Non</td><td>Non</td><td>Oui (abonnement valide)</td><td>Non</td></tr>
+  <tr><td>Modifier un maillot</td><td>Non</td><td>Non</td><td>Ses maillots uniquement</td><td>Masquer / supprimer</td></tr>
+  <tr><td>Changer le statut d’une commande</td><td>Non</td><td>Annuler, confirmer, réclamer</td><td>Ses commandes, selon la matrice §12.4</td><td>Arbitrage</td></tr>
+  <tr><td>Suspendre / réactiver un vendeur</td><td>Non</td><td>Non</td><td>Non</td><td>Oui</td></tr>
+  <tr><td>Valider un paiement d’abonnement, faire un versement</td><td>Non</td><td>Non</td><td>Non</td><td>Oui</td></tr>
+</table>
+<p class="note">Un même utilisateur ne peut avoir qu’un seul rôle par compte. Chaque page privée vérifie la session <strong>et</strong> le rôle côté serveur ; modifier une URL ne doit jamais donner accès à une action interdite.</p>
+</section>
+
+<!-- ===================== 6 ===================== -->
+<section class="chap">
+<h1><span class="num">6.</span> Modèle économique</h1>
+<h2>6.1 Phase 1 — lancement (V1)</h2>
+<table>
+  <thead><tr><th class="w30">Source de revenu</th><th>Règle</th></tr></thead>
+  <tr><td>Abonnement vendeur</td><td>14 jours d’essai gratuit (une seule fois par numéro de téléphone), puis <strong>3 000 FCFA par mois</strong>. C’est le revenu principal.</td></tr>
+  <tr><td>Commission sur les ventes</td><td><strong>0 %</strong> pendant la phase 1.</td></tr>
+  <tr><td>Frais de transaction (paiement en ligne)</td><td>Les frais réels facturés par l’agrégateur de paiement (environ 1 à 2 %) sont déduits du montant reversé au vendeur. Le taux est un paramètre configurable.</td></tr>
+  <tr><td>Mise en avant <span class="tag v11">V1.1</span></td><td>Achat d’une période de mise en avant pour un maillot (tarifs configurables).</td></tr>
+</table>
+<h2>6.2 Phase 2 — croissance (V2)</h2>
+<p>Introduction d’une commission (par exemple 5 %, paramétrable) <strong>uniquement sur les commandes payées en ligne</strong>, justifiée par la protection acheteur. Les commandes payées à la livraison ou via WhatsApp restent sans commission.</p>
+<h2>6.3 Justification</h2>
+<ul>
+  <li>Une commission est impossible à percevoir quand l’argent ne transite pas par la plateforme (paiement à la livraison, WhatsApp) ; les vendeurs la contourneraient.</li>
+  <li>L’abonnement est prévisible, simple à gérer et ne peut pas être contourné : le vendeur paie, quel que soit son canal de vente.</li>
+  <li>Le contournement via WhatsApp devient sans conséquence financière pour la plateforme.</li>
+</ul>
+</section>
+
+<!-- ===================== 7 ===================== -->
+<section class="chap">
+<h1><span class="num">7.</span> Fonctionnalités publiques</h1>
+<h2>7.1 Accueil</h2>
+<ul>
+  <li>Bannière de présentation de SAMA MAILLOT et barre de recherche visible immédiatement.</li>
+  <li>Accès aux trois catégories : Équipes nationales, Clubs, Rétro.</li>
+  <li>Section « Équipes populaires » (Sénégal, clubs européens les plus recherchés), alimentée par des données réelles.</li>
+  <li>Derniers maillots publiés ; maillots mis en avant <span class="tag v11">V1.1</span>.</li>
+  <li>Bloc « Comment ça marche » : paiement sécurisé, paiement à la livraison, code de livraison.</li>
+  <li>Appel à l’action « Devenir vendeur » : 14 jours d’essai gratuit puis 3 000 FCFA/mois.</li>
+  <li>Aucun faux chiffre, faux avis, faux compteur ou fausse promesse.</li>
+</ul>
+<h2>7.2 En-tête et pied de page</h2>
+<ul>
+  <li>Logo, navigation principale, menu Catalogue avec les catégories, recherche, accès compte, panier avec nombre d’articles.</li>
+  <li>Menu mobile (« burger ») et barre de navigation basse sur mobile : Accueil, Recherche, Panier, Compte.</li>
+  <li>Bascule mode clair / mode sombre, mémorisée dans le navigateur, avec le thème du système par défaut.</li>
+  <li>Pied de page : liens légaux, contact, réseaux sociaux, moyens de paiement acceptés.</li>
+</ul>
+<h2>7.3 Pages institutionnelles <span class="tag">V1</span></h2>
+<ul>
+  <li>À propos ; Contact (formulaire + numéro WhatsApp du support).</li>
+  <li>Comment ça marche (acheteurs) et Devenir vendeur.</li>
+  <li>FAQ : paiement, livraison, code de livraison, réclamations, abonnement.</li>
+  <li>Conditions générales d’utilisation (CGU) et conditions générales de vente (CGV).</li>
+  <li>Politique de confidentialité ; Politique vendeur (règles de publication, répliques, sanctions).</li>
+  <li>Mentions légales.</li>
+</ul>
+<h2>7.4 Page boutique publique</h2>
+<ul>
+  <li>Nom, logo, description, zones livrées, note moyenne et nombre d’avis, date d’inscription.</li>
+  <li>Liste des maillots de la boutique et derniers avis avec réponses du vendeur.</li>
+  <li>Bouton « Contacter sur WhatsApp ».</li>
+</ul>
+</section>
+
+<!-- ===================== 8 ===================== -->
+<section class="chap">
+<h1><span class="num">8.</span> Comptes utilisateurs et authentification</h1>
+<h2>8.1 Inscription client</h2>
+<ul>
+  <li>Champs : prénom, nom, adresse e-mail, mot de passe et confirmation, acceptation des CGU.</li>
+  <li>Le numéro de téléphone <strong>n’est pas demandé à l’inscription</strong> ; il est demandé et vérifié par code SMS lors de la première commande.</li>
+  <li>Alternative : inscription en un clic avec <strong>Google</strong>.</li>
+</ul>
+<h2>8.2 Inscription vendeur</h2>
+<ul>
+  <li>Champs : prénom, nom, e-mail, <strong>téléphone obligatoire vérifié par code SMS</strong>, mot de passe, nom de la boutique, ville, acceptation des CGU et de la politique vendeur.</li>
+  <li>Numéro Wave pour recevoir les versements (peut être renseigné plus tard, obligatoire avant le premier versement).</li>
+  <li>La période d’essai de 14 jours démarre à la vérification du téléphone.</li>
+</ul>
+<h2>8.3 Règles sur le numéro de téléphone</h2>
+<ul>
+  <li>Format sénégalais validé : <code>+221</code> suivi de 9 chiffres commençant par 70, 75, 76, 77 ou 78.</li>
+  <li>Un même numéro peut être rattaché à <strong>deux comptes maximum : un compte client et un compte vendeur</strong>.</li>
+  <li>L’essai gratuit ne peut être utilisé <strong>qu’une seule fois par numéro</strong>, même après suppression du compte.</li>
+</ul>
+<h2>8.4 Connexion</h2>
+<ul>
+  <li>Identifiant : e-mail <strong>ou</strong> numéro de téléphone vérifié, avec mot de passe.</li>
+  <li>Connexion avec Google <span class="tag">V1</span> ; connexion avec Apple <span class="tag v2">V2</span>.</li>
+  <li>Message d’erreur générique (« Identifiants incorrects ») sans indiquer si le compte existe.</li>
+  <li>Protection contre les essais répétés : 5 échecs en 15 minutes bloquent la connexion pendant 15 minutes.</li>
+  <li>Régénération de l’identifiant de session après connexion ; déconnexion automatique après 2 heures d’inactivité ; option « Rester connecté » de 30 jours maximum.</li>
+</ul>
+<h2>8.5 Mot de passe oublié</h2>
+<ul>
+  <li>Si le compte a un téléphone vérifié : envoi d’un <strong>code SMS à 6 chiffres</strong>, valable 10 minutes, 3 essais maximum, puis saisie d’un nouveau mot de passe.</li>
+  <li>Sinon : lien de réinitialisation à usage unique envoyé par e-mail, valable 1 heure.</li>
+  <li>Maximum 3 demandes de code par heure et par numéro (limite des coûts SMS et des abus).</li>
+  <li>Toutes les sessions ouvertes sont fermées après un changement de mot de passe.</li>
+</ul>
+<h2>8.6 Mots de passe</h2>
+<ul>
+  <li>8 caractères minimum, dont au moins une lettre et un chiffre.</li>
+  <li>Stockage uniquement sous forme hachée (<code>password_hash</code>, vérification par <code>password_verify</code>) ; jamais lisibles, y compris par l’administrateur.</li>
+  <li>Champs masqués à la saisie, avec bouton « afficher » (icône œil).</li>
+</ul>
+<h2>8.7 Espace « Mon compte » (client)</h2>
+<ul>
+  <li>Profil, téléphone, adresses de livraison enregistrées (quartier, ville, repère).</li>
+  <li>Mes commandes, mes favoris, mes avis, mes réclamations, mes notifications.</li>
+  <li>Changement de mot de passe ; suppression du compte (données anonymisées, historique des commandes conservé pour la comptabilité).</li>
+</ul>
+</section>
+
+<!-- ===================== 9 ===================== -->
+<section class="chap">
+<h1><span class="num">9.</span> Espace vendeur</h1>
+<h2>9.1 Tableau de bord</h2>
+<ul>
+  <li>Commandes à confirmer (avec délai restant), en cours, livrées, en litige.</li>
+  <li>Résumé du portefeuille : en attente, disponible, bloqué, déjà versé.</li>
+  <li>État de l’abonnement et date de fin, avec bouton de renouvellement.</li>
+  <li>Maillots publiés, maillots en rupture de stock, note moyenne.</li>
+  <li>Notifications importantes. Toutes les données affichées sont réelles.</li>
+</ul>
+<h2>9.2 Boutique</h2>
+<ul>
+  <li>Nom (unique), adresse publique (lien) générée à partir du nom, logo, bannière, description.</li>
+  <li>Ville, numéro WhatsApp de la boutique, numéro Wave de versement.</li>
+  <li>Statut : active, en grâce, masquée (abonnement expiré), suspendue.</li>
+</ul>
+<h2>9.3 Frais et zones de livraison</h2>
+<p>Le vendeur définit lui-même ses tarifs par zone. Les frais sont <strong>payés par le client</strong>.</p>
+<table>
+  <thead><tr><th class="w30">Zone (liste gérée par l’admin)</th><th class="w25">Exemple de tarif</th><th>Remarque</th></tr></thead>
+  <tr><td>Dakar (Plateau, Médina, Almadies…)</td><td>1 500 FCFA</td><td rowspan="4">Le vendeur active les zones qu’il dessert, fixe le tarif et un délai indicatif (par exemple 24-48h). Option « Retrait sur place » gratuite avec adresse de retrait.</td></tr>
+  <tr><td>Banlieue (Pikine, Guédiawaye, Keur Massar, Rufisque)</td><td>2 000 FCFA</td></tr>
+  <tr><td>Thiès, Mbour, Saly</td><td>3 000 FCFA</td></tr>
+  <tr><td>Autres régions</td><td>3 500 FCFA</td></tr>
+</table>
+<h2>9.4 Gestion des maillots</h2>
+<p>Le vendeur publie librement : il n’y a <strong>pas de validation préalable</strong> par l’administrateur. Un vendeur ne peut voir et modifier que ses propres maillots.</p>
+<table>
+  <thead><tr><th class="w25">Champ</th><th>Règle</th></tr></thead>
+  <tr><td>Titre</td><td>Obligatoire, 10 à 100 caractères. Exemple : « Maillot Sénégal domicile 2025/2026 ».</td></tr>
+  <tr><td>Catégorie</td><td>Équipes nationales, Clubs ou Rétro.</td></tr>
+  <tr><td>Équipe</td><td>Choisie dans la liste des équipes (gérée par l’admin) ; le vendeur peut proposer une équipe manquante.</td></tr>
+  <tr><td>Saison</td><td>Format <code>AAAA/AAAA</code> ou année (rétro).</td></tr>
+  <tr><td>Type</td><td>Domicile, extérieur, third, gardien, entraînement, autre.</td></tr>
+  <tr><td>Authenticité</td><td><strong>Officiel</strong>, <strong>Réplique</strong> ou <strong>Version fan</strong> (obligatoire, affiché clairement sur la fiche).</td></tr>
+  <tr><td>État</td><td>Neuf avec étiquette, neuf sans étiquette, occasion très bon état, occasion bon état.</td></tr>
+  <tr><td>Prix</td><td>Entier en FCFA, de 1 000 à 500 000 FCFA.</td></tr>
+  <tr><td>Tailles et stock</td><td>Adultes (XS à XXXL) et enfants (4-6 ans, 6-8 ans, 8-10 ans, 10-12 ans, 12-14 ans) ; une quantité par taille.</td></tr>
+  <tr><td>Flocage</td><td>Option : le vendeur indique s’il propose le flocage (nom et numéro) et son supplément de prix ; le client saisit le nom et le numéro lors de l’ajout au panier.</td></tr>
+  <tr><td>Photos</td><td>1 à 5 photos, la première est la photo principale (voir §29.4).</td></tr>
+  <tr><td>Description</td><td>Texte libre, 2 000 caractères maximum.</td></tr>
+  <tr><td>Statut</td><td>Brouillon, publié, masqué par le vendeur, masqué par l’admin, supprimé (suppression logique).</td></tr>
+</table>
+<div class="alerte"><strong>Répliques et contrefaçon.</strong> Les répliques sont autorisées uniquement si elles sont déclarées comme telles. Présenter une réplique comme « Officiel » est interdit : le maillot est supprimé et l’infraction compte comme un manquement grave pouvant entraîner la suspension du compte (politique vendeur).</div>
+<h2>9.5 Restrictions liées à l’abonnement</h2>
+<ul>
+  <li>Abonnement en essai ou actif : toutes les fonctions sont disponibles.</li>
+  <li>Période de grâce (3 jours après expiration) : maillots toujours visibles et commandables, <strong>impossible d’ajouter de nouveaux maillots</strong>.</li>
+  <li>Boutique masquée (après la grâce) : le vendeur garde l’accès à son espace pour <strong>voir et livrer les commandes en cours</strong>, consulter son portefeuille et renouveler ; aucune nouvelle commande ne peut être reçue.</li>
+</ul>
+</section>
+
+<!-- ===================== 10 ===================== -->
+<section class="chap">
+<h1><span class="num">10.</span> Catalogue, recherche et fiche maillot</h1>
+<h2>10.1 Catalogue</h2>
+<ul>
+  <li>Affichage en cartes : photo principale, titre, prix en FCFA, nom de la boutique et sa note, badge d’authenticité, mention « Rupture » si aucun stock.</li>
+  <li>Pagination de 24 maillots par page.</li>
+  <li>Tri : plus récents (par défaut), prix croissant, prix décroissant, vendeurs les mieux notés.</li>
+  <li>Seuls les maillots publiés des boutiques actives ou en grâce sont affichés.</li>
+</ul>
+<h2>10.2 Recherche</h2>
+<ul>
+  <li>Champ de recherche visible sur toutes les pages.</li>
+  <li>Recherche sur le titre, l’équipe et la saison, insensible aux accents et à la casse (« senegal » trouve « Sénégal »).</li>
+  <li>Index <code>FULLTEXT</code> MySQL, avec repli sur <code>LIKE</code> pour les recherches de moins de 3 caractères.</li>
+  <li>Message clair et suggestions (catégories, équipes populaires) lorsqu’aucun résultat n’est trouvé.</li>
+</ul>
+<h2>10.3 Filtres</h2>
+<ul>
+  <li><span class="tag">V1</span> Catégorie, équipe, fourchette de prix, taille.</li>
+  <li><span class="tag v11">V1.1</span> Saison, type, état, authenticité, disponibilité, zone de livraison.</li>
+</ul>
+<h2>10.4 Fiche maillot</h2>
+<ul>
+  <li>Galerie de photos (balayage sur mobile, zoom au clic).</li>
+  <li>Titre, prix, authenticité, état, type, saison, équipe, catégorie, description.</li>
+  <li>Choix de la taille (tailles épuisées grisées) et de la quantité ; option de flocage si proposée.</li>
+  <li>Boutons : « Ajouter au panier », « Commander via WhatsApp », « Poser une question » (WhatsApp), « Favori ».</li>
+  <li>Encadré vendeur : nom, note moyenne, nombre d’avis, lien vers la boutique.</li>
+  <li>Zones et tarifs de livraison de la boutique.</li>
+  <li>Encadré « Paiement sécurisé : votre argent est remboursé si vous ne recevez pas votre maillot » (paiement en ligne).</li>
+  <li>Lien « Signaler ce maillot ».</li>
+</ul>
+</section>
+
+<!-- ===================== 11 ===================== -->
+<section class="chap">
+<h1><span class="num">11.</span> Panier</h1>
+<ul>
+  <li>Le visiteur peut ajouter au panier <strong>sans être connecté</strong> ; le panier est conservé en session pendant 7 jours.</li>
+  <li>À la connexion, le panier invité est fusionné avec le panier du compte.</li>
+  <li>Pour <strong>commander</strong>, la connexion ou l’inscription est obligatoire.</li>
+  <li>Chaque maillot (avec sa taille et son flocage) est une <strong>ligne séparée</strong> ; on peut modifier la quantité ou supprimer une ligne.</li>
+  <li>Le panier est <strong>affiché regroupé par boutique</strong>. Tous les maillots d’une même boutique forment <strong>une seule commande</strong> avec <strong>un seul frais de livraison</strong>. Des maillots de 3 boutiques donnent 3 commandes distinctes, validées en une seule fois.</li>
+  <li>Affichage : sous-total par boutique, frais de livraison selon la zone choisie, total général en FCFA.</li>
+  <li>Une ligne dont le maillot n’est plus disponible ou dont le prix a changé est signalée avant la validation.</li>
+  <li>Le prix n’est jamais lu depuis le navigateur : il est <strong>recalculé côté serveur</strong> à chaque affichage et à la validation.</li>
+</ul>
+</section>
+
+<!-- ===================== 12 ===================== -->
+<section class="chap">
+<h1><span class="num">12.</span> Commandes et gestion du stock</h1>
+<h2>12.1 Validation de la commande</h2>
+<ol>
+  <li>Le client choisit ou saisit son adresse de livraison (ville, quartier, repère, téléphone).</li>
+  <li>À la première commande, le téléphone est vérifié par code SMS.</li>
+  <li>Le client choisit son mode de paiement : <strong>en ligne</strong> ou <strong>à la livraison</strong>.</li>
+  <li>Le serveur recalcule prix, stock, frais et total, puis crée une commande par boutique dans une transaction SQL.</li>
+  <li>Chaque commande reçoit un numéro unique (<code>CMD-2026-000142</code>) et un <strong>code de livraison</strong> à 4 chiffres envoyé au client par SMS.</li>
+  <li>Une copie des informations importantes est conservée dans la commande (titre, taille, prix, flocage, frais, adresse), même si le maillot est modifié ensuite.</li>
+</ol>
+<h2>12.2 Stock</h2>
+<ul>
+  <li>Le stock est <strong>décrémenté dès la création de la commande</strong>.</li>
+  <li>Il est <strong>restitué</strong> en cas d’annulation (par le client, le vendeur, le système ou l’admin).</li>
+  <li><strong>Premier arrivé, premier servi</strong> : la vérification et la décrémentation se font dans une transaction avec verrouillage de la ligne (<code>SELECT … FOR UPDATE</code>). Si deux clients commandent la dernière pièce, le premier enregistré l’obtient ; le second reçoit le message « Ce maillot vient d’être vendu ».</li>
+  <li>Il est impossible de commander une quantité supérieure au stock disponible.</li>
+</ul>
+<h2>12.3 Statuts de commande</h2>
+<table>
+  <thead><tr><th class="w30">Statut</th><th>Signification</th></tr></thead>
+  <tr><td>En attente de paiement</td><td>Paiement en ligne lancé, non encore confirmé par l’agrégateur. Annulation automatique après 30 minutes.</td></tr>
+  <tr><td>En attente de confirmation</td><td>Commande payée (en ligne) ou passée en paiement à la livraison, le vendeur doit confirmer. Annulation automatique après 24 heures.</td></tr>
+  <tr><td>Confirmée</td><td>Le vendeur a accepté la commande.</td></tr>
+  <tr><td>Expédiée</td><td>Le maillot est en route.</td></tr>
+  <tr><td>Livrée</td><td>Le vendeur déclare la livraison (avec ou sans code de livraison).</td></tr>
+  <tr><td>Reçue</td><td>Le client a confirmé la réception, ou le délai de réclamation est écoulé. Statut final normal.</td></tr>
+  <tr><td>En litige</td><td>Le client a ouvert une réclamation ; les fonds sont bloqués.</td></tr>
+  <tr><td>Annulée</td><td>Commande annulée, stock restitué, remboursement si payée en ligne.</td></tr>
+  <tr><td>Remboursée</td><td>Litige tranché en faveur du client, remboursement effectué.</td></tr>
+</table>
+<h2>12.4 Matrice des transitions</h2>
+<table>
+  <thead><tr><th class="w25">De</th><th class="w25">Vers</th><th class="w20">Qui</th><th>Condition</th></tr></thead>
+  <tr><td>En attente de paiement</td><td>En attente de confirmation</td><td>Système</td><td>Paiement vérifié côté serveur auprès de l’agrégateur</td></tr>
+  <tr><td>En attente de paiement</td><td>Annulée</td><td>Système</td><td>Échec ou 30 minutes sans paiement</td></tr>
+  <tr><td>En attente de confirmation</td><td>Confirmée</td><td>Vendeur</td><td>Dans les 24 heures</td></tr>
+  <tr><td>En attente de confirmation</td><td>Annulée</td><td>Vendeur, client ou système</td><td>Refus du vendeur, annulation du client, ou 24 heures sans réponse</td></tr>
+  <tr><td>Confirmée</td><td>Expédiée</td><td>Vendeur</td><td>—</td></tr>
+  <tr><td>Confirmée</td><td>Annulée</td><td>Client ou vendeur</td><td>Tant que la commande n’est pas expédiée (motif obligatoire)</td></tr>
+  <tr><td>Expédiée</td><td>Livrée</td><td>Vendeur</td><td>Avec code de livraison (recommandé) ou sans code</td></tr>
+  <tr><td>Expédiée ou Livrée</td><td>Reçue</td><td>Client</td><td>Le client confirme la réception</td></tr>
+  <tr><td>Livrée</td><td>Reçue</td><td>Système</td><td>24h (avec code) ou 48h (sans code) sans réclamation</td></tr>
+  <tr><td>Expédiée ou Livrée</td><td>En litige</td><td>Client</td><td>Réclamation ouverte avant la fin du délai</td></tr>
+  <tr><td>En litige</td><td>Reçue ou Remboursée</td><td>Admin</td><td>Décision d’arbitrage</td></tr>
+</table>
+<p class="note">Toute autre transition est refusée côté serveur. Chaque changement est historisé (ancien statut, nouveau statut, auteur, date, motif). Les annulations répétées d’un vendeur sont visibles par l’administrateur.</p>
+<h2>12.5 Lutte contre les fausses commandes (paiement à la livraison)</h2>
+<ul>
+  <li>Téléphone du client vérifié par code SMS avant la première commande.</li>
+  <li>Maximum 3 commandes en paiement à la livraison non terminées en même temps par client.</li>
+  <li>Le vendeur peut marquer « Client injoignable / refus à la livraison » ; au bout de 3 refus, le paiement à la livraison est désactivé pour ce client (paiement en ligne uniquement).</li>
+</ul>
+</section>
+
+<!-- ===================== 13 ===================== -->
+<section class="chap">
+<h1><span class="num">13.</span> Paiements et paiement sécurisé (séquestre)</h1>
+<h2>13.1 Modes de paiement</h2>
+<table>
+  <thead><tr><th class="w25">Mode</th><th class="w40">Fonctionnement</th><th>Protection acheteur</th></tr></thead>
+  <tr><td><strong>En ligne</strong> (Wave, Orange Money, Free Money, carte)</td><td>Le client paie la plateforme via un agrégateur agréé. L’argent est conservé jusqu’à la confirmation de la livraison.</td><td><strong>Totale</strong> : remboursement si le maillot n’est pas reçu ou non conforme (après arbitrage).</td></tr>
+  <tr><td><strong>À la livraison</strong></td><td>Le client paie le vendeur (espèces ou Wave) à la réception, contre remise du code de livraison.</td><td><strong>Partielle</strong> : réclamation et signalement possibles, mais la plateforme ne détient pas l’argent et ne peut pas rembourser.</td></tr>
+</table>
+<p class="note">Ces différences sont expliquées clairement au client au moment du choix (« Payez en ligne pour être remboursé en cas de problème »).</p>
+<h2>13.2 Paiement sécurisé (séquestre)</h2>
+<ol>
+  <li>Le client paie le montant total (maillots + livraison) à SAMA MAILLOT.</li>
+  <li>Le montant dû au vendeur est enregistré dans son portefeuille comme <strong>« en attente »</strong>.</li>
+  <li>L’argent devient <strong>« disponible »</strong> pour le vendeur dans l’un des cas suivants :
+    <ul>
+      <li>le client confirme la réception → <strong>immédiatement</strong> ;</li>
+      <li>le vendeur a saisi le code de livraison et aucune réclamation n’est ouverte → <strong>24 heures</strong> après la livraison ;</li>
+      <li>le vendeur a déclaré la livraison sans code et aucune réclamation n’est ouverte → <strong>48 heures</strong> après la livraison.</li>
+    </ul>
+  </li>
+  <li>Si le client ouvre une réclamation pendant ce délai, l’argent passe en <strong>« bloqué »</strong> jusqu’à la décision de l’administrateur.</li>
+</ol>
+<h2>13.3 Prestataire de paiement</h2>
+<ul>
+  <li>Utilisation d’un agrégateur de paiement agréé au Sénégal (Wave Business, PayDunya, PayTech ou CinetPay), choisi lors du lot 8 selon les frais et les moyens acceptés.</li>
+  <li>Le passage en production nécessite un compte marchand au nom de la structure légale de SAMA MAILLOT (voir §25).</li>
+  <li>En développement et en recette : <strong>mode test uniquement</strong>, jamais de faux paiement présenté comme réel.</li>
+</ul>
+<h2>13.4 Règles de sécurité des paiements</h2>
+<ul>
+  <li>Aucune clé secrète dans le code source : fichier de configuration hors de la racine web ou variables d’environnement.</li>
+  <li>Une redirection du navigateur n’est jamais une preuve de paiement : le statut est vérifié côté serveur (notification de l’agrégateur avec vérification de signature, puis contrôle par appel API).</li>
+  <li>Référence unique par transaction ; une même notification reçue deux fois n’est traitée qu’une fois.</li>
+  <li>Le montant payé est comparé au montant attendu ; toute différence bloque la commande et alerte l’admin.</li>
+  <li>Gestion des statuts : réussi, échoué, annulé, expiré, inconnu (vérifié à nouveau par tâche planifiée).</li>
+  <li>Chaque événement de paiement est journalisé, sans données sensibles.</li>
+</ul>
+</section>
+
+<!-- ===================== 14 ===================== -->
+<section class="chap">
+<h1><span class="num">14.</span> Livraison et code de livraison</h1>
+<ul>
+  <li>La livraison est assurée par le vendeur (lui-même ou un livreur de son choix).</li>
+  <li>Le client peut suivre le statut de sa commande à tout moment et contacter le vendeur sur WhatsApp depuis la commande.</li>
+</ul>
+<h2>14.1 Code de livraison</h2>
+<ol>
+  <li>À la création de la commande, un code à 4 chiffres est généré, stocké chiffré en base et envoyé au client par SMS ; il est aussi visible dans « Mes commandes » (jamais dans l’espace vendeur).</li>
+  <li>À la remise du colis, le client donne le code au livreur ou au vendeur.</li>
+  <li>Le vendeur saisit le code dans son espace : la livraison est prouvée.</li>
+  <li>5 essais de code maximum par commande, puis blocage et alerte de l’administrateur.</li>
+</ol>
+<p class="note">Le code ne doit être communiqué qu’au moment de la réception du maillot. Ce rappel figure dans le SMS envoyé au client.</p>
+<h2>14.2 Livraison sans code</h2>
+<p>Si le client est absent (colis remis à un proche, par exemple), le vendeur peut déclarer la livraison sans code. Le client reçoit alors un SMS : « Votre commande CMD-… est marquée livrée. Un problème ? Signalez-le avant le [date et heure] ». Le délai de réclamation est de 48 heures.</p>
+</section>
+
+<!-- ===================== 15 ===================== -->
+<section class="chap">
+<h1><span class="num">15.</span> Portefeuille vendeur et versements</h1>
+<h2>15.1 Soldes</h2>
+<table>
+  <thead><tr><th class="w20">Solde</th><th>Contenu</th></tr></thead>
+  <tr><td>En attente</td><td>Commandes payées en ligne, délai de réclamation en cours.</td></tr>
+  <tr><td>Disponible</td><td>Fonds débloqués, en attente du prochain versement.</td></tr>
+  <tr><td>Bloqué</td><td>Commandes en litige.</td></tr>
+  <tr><td>Versé</td><td>Historique des versements effectués, avec référence Wave.</td></tr>
+</table>
+<p>Montant reversé au vendeur pour une commande = prix des maillots + frais de livraison − frais de transaction (et − commission en V2). Le détail est visible pour chaque commande.</p>
+<h2>15.2 Versements</h2>
+<ul>
+  <li>Versements groupés <strong>deux fois par semaine (mardi et vendredi)</strong> sur le numéro Wave du vendeur, pour réduire les frais et le travail manuel.</li>
+  <li>Montant minimum de versement : 1 000 FCFA (paramétrable).</li>
+  <li>V1 : l’administrateur effectue le virement Wave manuellement, puis saisit la référence de transaction ; le vendeur est notifié.</li>
+  <li>Chaque mouvement (crédit, déblocage, blocage, remboursement, versement) est enregistré dans un registre non modifiable. Le solde est toujours calculé à partir de ce registre.</li>
+</ul>
+</section>
+
+<!-- ===================== 16 ===================== -->
+<section class="chap">
+<h1><span class="num">16.</span> Réclamations et litiges</h1>
+<h2>16.1 Ouverture</h2>
+<ul>
+  <li>Le client peut réclamer dès que la commande est expédiée et jusqu’à la fin du délai (24h ou 48h après la livraison, ou 48h après la confirmation de réception pour le paiement à la livraison).</li>
+  <li>Motif obligatoire : non reçu, maillot différent de l’annonce, mauvaise taille envoyée, maillot abîmé, contrefaçon présentée comme officielle, autre.</li>
+  <li>Description obligatoire et jusqu’à 3 photos.</li>
+</ul>
+<h2>16.2 Traitement</h2>
+<ol>
+  <li>La commande passe « En litige » et les fonds sont bloqués (paiement en ligne).</li>
+  <li>Le vendeur est notifié et dispose de <strong>48 heures</strong> pour répondre (texte et photos). Sans réponse, la décision est prise sur la base des éléments du client.</li>
+  <li>Client et vendeur peuvent aussi trouver un accord à l’amiable ; le client peut alors clôturer sa réclamation.</li>
+  <li>L’administrateur tranche sous <strong>72 heures</strong> : remboursement total, remboursement partiel, ou paiement du vendeur.</li>
+  <li>Le remboursement est effectué par Wave (V1, manuel) sous 72 heures après la décision. En cas de remboursement total, le retour du maillot au vendeur est organisé entre les parties.</li>
+</ol>
+<h2>16.3 Paiement à la livraison</h2>
+<p>La plateforme ne détenant pas l’argent, elle joue un rôle de médiation : la réclamation est transmise au vendeur, l’administrateur peut intervenir, et une réclamation jugée fondée est comptée comme un signalement du vendeur (§21).</p>
+</section>
+
+<!-- ===================== 17 ===================== -->
+<section class="chap">
+<h1><span class="num">17.</span> Commande via WhatsApp</h1>
+<p>Les clients sénégalais aiment commander sur WhatsApp. Pour garder cette habitude <strong>sans perdre le suivi</strong>, le bouton « Commander via WhatsApp » fonctionne ainsi :</p>
+<ol>
+  <li>Le client choisit sa taille sur la fiche maillot et clique sur « Commander via WhatsApp ».</li>
+  <li>S’il n’est pas connecté, il se connecte ou s’inscrit (rapide, Google possible).</li>
+  <li>Le site crée une <strong>commande réelle en paiement à la livraison</strong> : stock réservé, numéro de commande, code de livraison envoyé par SMS.</li>
+  <li>WhatsApp s’ouvre avec un message pré-rempli : « Bonjour, je viens de passer la commande CMD-2026-000142 sur SAMA MAILLOT : Maillot Sénégal domicile 2025/2026, taille L, 1 exemplaire. Lien : … ».</li>
+  <li>Client et vendeur discutent sur WhatsApp ; la commande suit ensuite le cycle normal (confirmation, livraison, code, avis).</li>
+</ol>
+<p>Le bouton « Poser une question » ouvre WhatsApp avec le lien du maillot, <strong>sans créer de commande</strong>.</p>
+<p class="note">Lien technique : <code>https://wa.me/221XXXXXXXXX?text=...</code> (message encodé). Le numéro WhatsApp du vendeur n’est jamais affiché en clair dans le code de la page pour limiter la collecte automatique.</p>
+</section>
+
+<!-- ===================== 18 ===================== -->
+<section class="chap">
+<h1><span class="num">18.</span> Abonnements vendeurs</h1>
+<h2>18.1 Offre</h2>
+<ul>
+  <li>14 jours d’essai gratuit, une seule fois par numéro de téléphone.</li>
+  <li>Puis 3 000 FCFA par mois (30 jours), montant paramétrable.</li>
+  <li>Dates de début et de fin enregistrées en base ; le statut est toujours calculé à partir de ces données persistées, jamais d’une variable de session.</li>
+</ul>
+<h2>18.2 Cycle de vie et notifications</h2>
+<table>
+  <thead><tr><th class="w15">Moment</th><th class="w25">État</th><th>Effet et notification</th></tr></thead>
+  <tr><td>J-2</td><td>Essai / Actif</td><td>SMS + notification in-app : « Votre abonnement se termine dans 2 jours ».</td></tr>
+  <tr><td>J0 (fin)</td><td>En grâce</td><td>SMS + in-app : « Votre abonnement est terminé. Vos maillots seront masqués dans 3 jours ». Ajout de maillots bloqué.</td></tr>
+  <tr><td>J+1, J+2</td><td>En grâce</td><td>Rappel quotidien (SMS + in-app). Maillots toujours visibles et commandables.</td></tr>
+  <tr><td>J+3</td><td>Expiré</td><td>Maillots masqués, boutique masquée, dernier SMS. Le vendeur peut encore voir et livrer ses commandes en cours.</td></tr>
+  <tr><td>Après J+3</td><td>Expiré</td><td>Rappel hebdomadaire pendant 1 mois, puis arrêt.</td></tr>
+</table>
+<h2>18.3 Tous les états</h2>
+<p>Essai • Actif • En grâce • Expiré • Paiement en vérification • Suspendu (par l’admin) • Annulé (par le vendeur).</p>
+<h2>18.4 Renouvellement (paiement manuel V1)</h2>
+<ol>
+  <li>Le vendeur clique sur « Renouveler » : la page affiche le numéro Wave de SAMA MAILLOT et le montant.</li>
+  <li>Il envoie 3 000 FCFA via Wave, puis saisit l’<strong>identifiant de transaction Wave</strong> et joint une capture d’écran.</li>
+  <li>L’abonnement passe en « Paiement en vérification ». Pendant cette vérification, la boutique reste visible.</li>
+  <li>L’administrateur vérifie la réception sur le compte Wave de la plateforme et valide (ou refuse avec motif) sous 24 heures.</li>
+  <li>Date de début de la nouvelle période : fin de la période précédente si le paiement est fait avant l’expiration ou pendant la grâce ; date de validation si la boutique était déjà masquée.</li>
+  <li>Un identifiant de transaction Wave ne peut être utilisé qu’une fois.</li>
+</ol>
+<p>Le vendeur peut payer plusieurs mois d’avance (1, 3 ou 6 mois). En V1.1 ou V2, le paiement automatique via l’agrégateur remplacera la validation manuelle.</p>
+</section>
+
+<!-- ===================== 19 ===================== -->
+<section class="chap">
+<h1><span class="num">19.</span> Mise en avant des maillots <span class="tag v11">V1.1</span></h1>
+<ul>
+  <li>Le vendeur achète une mise en avant pour un maillot publié et en stock : par exemple 7 jours pour 1 000 FCFA, 30 jours pour 3 000 FCFA (tarifs configurables par l’admin).</li>
+  <li>Paiement selon le même processus que l’abonnement (manuel en V1.1, automatique ensuite).</li>
+  <li>Les maillots mis en avant apparaissent dans une section dédiée de l’accueil et en tête des résultats de leur catégorie, avec la mention « Sponsorisé ».</li>
+  <li>Dates de début et de fin enregistrées ; à l’expiration, ou si le maillot est épuisé, masqué ou la boutique masquée, la mise en avant s’arrête automatiquement.</li>
+  <li>Nombre maximum de maillots mis en avant simultanément par catégorie (paramétrable), avec rotation aléatoire.</li>
+</ul>
+</section>
+
+<!-- ===================== 20 ===================== -->
+<section class="chap">
+<h1><span class="num">20.</span> Notes et avis sur les vendeurs</h1>
+<ul>
+  <li>L’avis porte sur la <strong>boutique / le vendeur</strong>, pas sur le maillot.</li>
+  <li>Seul un client dont la commande est au statut <strong>« Reçue »</strong> peut donner un avis, dans les <strong>30 jours</strong> qui suivent.</li>
+  <li>Un avis par commande : note de <strong>1 à 5 étoiles</strong> (obligatoire) et commentaire (facultatif, 500 caractères maximum).</li>
+  <li>Le client peut modifier son avis une fois, dans les 7 jours.</li>
+  <li>Le vendeur peut publier <strong>une réponse</strong> publique par avis.</li>
+  <li>L’administrateur peut masquer un avis abusif (insulte, information personnelle, hors sujet) ; le motif est journalisé.</li>
+  <li>Note moyenne calculée sur les avis visibles, affichée avec le nombre d’avis ; « Nouveau vendeur » tant qu’il y a moins de 3 avis.</li>
+  <li>Le client reçoit une invitation à noter (in-app et e-mail) après la réception.</li>
+</ul>
+</section>
+
+<!-- ===================== 21 ===================== -->
+<section class="chap">
+<h1><span class="num">21.</span> Signalements et suspensions</h1>
+<h2>21.1 Signalement d’un vendeur</h2>
+<ul>
+  <li>Seul un client ayant passé <strong>une commande non annulée auprès de ce vendeur</strong> peut le signaler (protection contre les faux comptes de concurrents).</li>
+  <li>Motif obligatoire : arnaque / non livré, maillot non conforme, contrefaçon présentée comme officielle, comportement inapproprié, autre ; description obligatoire ; photos facultatives.</li>
+  <li>Un seul signalement par client et par vendeur sur une période de 90 jours.</li>
+</ul>
+<h2>21.2 Suspension automatique</h2>
+<ul>
+  <li><strong>3 signalements de 3 clients différents sur 90 jours glissants</strong> entraînent la <strong>suspension automatique</strong> du compte vendeur.</li>
+  <li>Effets : maillots et boutique masqués, aucune nouvelle commande, versements suspendus ; le vendeur garde l’accès à ses commandes en cours pour les livrer.</li>
+  <li>Le vendeur est notifié (SMS + in-app) et peut envoyer sa contestation via un formulaire.</li>
+  <li>L’administrateur reçoit une alerte prioritaire. <strong>Seul l’administrateur peut lever la suspension</strong>, avec un motif journalisé.</li>
+  <li>Un signalement jugé infondé par l’administrateur est classé et ne compte plus.</li>
+</ul>
+<h2>21.3 Signalement d’un maillot</h2>
+<p>Tout utilisateur connecté peut signaler un maillot (contrefaçon, photo volée, contenu inapproprié, prix trompeur). Le signalement va dans la file de modération de l’administrateur, sans action automatique.</p>
+</section>
+
+<!-- ===================== 22 ===================== -->
+<section class="chap">
+<h1><span class="num">22.</span> Notifications</h1>
+<h2>22.1 Canaux</h2>
+<table>
+  <thead><tr><th class="w20">Canal</th><th class="w15">Version</th><th>Usage</th></tr></thead>
+  <tr><td>In-app</td><td><span class="tag">V1</span></td><td>Toutes les notifications (cloche avec compteur, page de liste, marquer comme lu). Gratuit.</td></tr>
+  <tr><td>SMS</td><td><span class="tag">V1</span></td><td>Uniquement les événements critiques (tableau ci-dessous). Via un fournisseur SMS sénégalais (Orange SMS API ou agrégateur local).</td></tr>
+  <tr><td>E-mail</td><td><span class="tag">V1</span></td><td>Copie des notifications importantes, gratuit (SMTP Infomaniak).</td></tr>
+  <tr><td>WhatsApp Business API</td><td><span class="tag v2">V2</span></td><td>Remplace une partie des SMS, une fois l’entreprise vérifiée par Meta et les modèles de messages approuvés.</td></tr>
+</table>
+<h2>22.2 Événements</h2>
+<table>
+  <thead><tr><th class="w40">Événement</th><th class="w15">Destinataire</th><th class="w15">SMS</th><th>In-app / e-mail</th></tr></thead>
+  <tr><td>Code de vérification ou de réinitialisation</td><td>Utilisateur</td><td>Oui</td><td>—</td></tr>
+  <tr><td>Nouvelle commande</td><td>Vendeur</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Commande créée + code de livraison</td><td>Client</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Commande confirmée, expédiée</td><td>Client</td><td>Non</td><td>Oui</td></tr>
+  <tr><td>Commande marquée livrée sans code</td><td>Client</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Commande annulée</td><td>Client et vendeur</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Rappel : commande à confirmer (12h restantes)</td><td>Vendeur</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Réclamation ouverte / décision</td><td>Client et vendeur</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Fonds disponibles, versement effectué</td><td>Vendeur</td><td>Non</td><td>Oui</td></tr>
+  <tr><td>Abonnement : J-2, J0, J+1, J+2, J+3</td><td>Vendeur</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Paiement d’abonnement validé ou refusé</td><td>Vendeur</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Maillot masqué, compte suspendu ou réactivé</td><td>Vendeur</td><td>Oui</td><td>Oui</td></tr>
+  <tr><td>Nouvel avis</td><td>Vendeur</td><td>Non</td><td>Oui</td></tr>
+  <tr><td>Invitation à noter le vendeur</td><td>Client</td><td>Non</td><td>Oui</td></tr>
+</table>
+<p class="note">Les SMS sont mis en file d’attente et envoyés par une tâche planifiée (nouvel essai en cas d’échec). Aucun SMS non urgent entre 22h et 7h. Chaque envoi est enregistré pour le suivi des coûts (environ 15 à 25 FCFA par SMS).</p>
+</section>
+
+<!-- ===================== 23 ===================== -->
+<section class="chap">
+<h1><span class="num">23.</span> Administration et modération</h1>
+<h2>23.1 Tableau de bord</h2>
+<ul>
+  <li>Chiffres réels : utilisateurs, vendeurs par statut d’abonnement, maillots publiés, commandes par statut, volume payé en ligne, revenus d’abonnement.</li>
+  <li>Files d’action prioritaires : litiges ouverts, suspensions automatiques, signalements, paiements d’abonnement à valider, versements à effectuer, paiements en anomalie.</li>
+</ul>
+<h2>23.2 Gestion</h2>
+<ul>
+  <li><strong>Utilisateurs et vendeurs</strong> : consulter, désactiver, suspendre, réactiver (motif obligatoire).</li>
+  <li><strong>Maillots</strong> : pas de validation préalable ; l’administrateur peut <strong>masquer ou supprimer</strong> un maillot non conforme (suppression logique pour conserver l’historique des commandes) et suspendre le vendeur.</li>
+  <li><strong>Catalogue</strong> : catégories, équipes, zones de livraison (créer, modifier, désactiver).</li>
+  <li><strong>Commandes</strong> : consultation complète et historique des statuts.</li>
+  <li><strong>Litiges</strong> : pièces des deux parties, décision (remboursement total, partiel, paiement du vendeur).</li>
+  <li><strong>Finances</strong> : validation des paiements d’abonnement, versements groupés, remboursements, registre des mouvements, export CSV.</li>
+  <li><strong>Avis et signalements</strong> : masquer un avis, classer ou retenir un signalement.</li>
+  <li><strong>Paramètres</strong> : tous les paramètres de l’annexe A.</li>
+  <li><strong>Journal d’audit</strong> : consultation et filtres.</li>
+</ul>
+<p class="note">Le compte administrateur utilise un mot de passe fort et une vérification par code SMS à chaque connexion. Toutes les actions administratives sensibles sont journalisées (§31).</p>
+</section>
+
+<!-- ===================== 24 ===================== -->
+<section class="chap">
+<h1><span class="num">24.</span> Sécurité</h1>
+<table>
+  <thead><tr><th class="w25">Risque</th><th>Mesure</th></tr></thead>
+  <tr><td>Injection SQL</td><td>PDO et requêtes préparées obligatoires ; <code>PDO::ATTR_EMULATE_PREPARES = false</code>.</td></tr>
+  <tr><td>XSS</td><td>Échappement de toutes les sorties avec une fonction <code>e()</code> (<code>htmlspecialchars</code>) ; en-tête Content-Security-Policy.</td></tr>
+  <tr><td>CSRF</td><td>Jeton CSRF sur tous les formulaires et actions POST ; cookies <code>SameSite=Lax</code>.</td></tr>
+  <tr><td>Vol de session</td><td>Cookies <code>HttpOnly</code> et <code>Secure</code> ; régénération de l’identifiant à la connexion ; expiration après inactivité.</td></tr>
+  <tr><td>Force brute</td><td>Limitation des tentatives de connexion et de codes SMS (§8).</td></tr>
+  <tr><td>Accès non autorisé (IDOR)</td><td>Chaque requête vérifie que la ressource appartient à l’utilisateur (un vendeur ne manipule que ses données).</td></tr>
+  <tr><td>Manipulation des prix</td><td>Prix, stock, frais et totaux recalculés côté serveur.</td></tr>
+  <tr><td>Double soumission</td><td>Redirection après POST ; jeton à usage unique sur la validation de commande et les paiements.</td></tr>
+  <tr><td>Fichiers malveillants</td><td>Vérification du type réel (MIME), de l’extension et de la taille ; ré-encodage des images par GD ; renommage aléatoire ; exécution PHP interdite dans <code>uploads/</code>.</td></tr>
+  <tr><td>Fuite de secrets</td><td>Secrets hors du dépôt Git (<code>.env</code> dans <code>.gitignore</code>) ; fichiers sensibles hors de la racine web.</td></tr>
+  <tr><td>Fuite d’informations techniques</td><td><code>display_errors = Off</code> en production ; messages génériques ; détails dans les journaux serveur.</td></tr>
+  <tr><td>Clickjacking et autres</td><td>En-têtes <code>X-Frame-Options: DENY</code>, <code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy</code>, HTTPS obligatoire (HSTS).</td></tr>
+  <tr><td>Codes de vérification</td><td>Codes SMS stockés hachés ; codes de livraison stockés chiffrés (clé dans <code>.env</code>) ; expiration et nombre d’essais limité.</td></tr>
+</table>
+<p>Principe du moindre privilège : l’utilisateur MySQL de l’application n’a que les droits nécessaires (pas de <code>DROP</code>, pas de <code>GRANT</code>).</p>
+</section>
+
+<!-- ===================== 25 ===================== -->
+<section class="chap">
+<h1><span class="num">25.</span> Conformité légale au Sénégal</h1>
+<table>
+  <thead><tr><th class="w35">Obligation</th><th>Action prévue</th></tr></thead>
+  <tr><td>Loi n° 2008-12 sur la protection des données personnelles</td><td>Déclaration auprès de la CDP (Commission de protection des données personnelles) ; politique de confidentialité ; droit d’accès, de rectification et de suppression ; collecte limitée au nécessaire.</td></tr>
+  <tr><td>Loi n° 2008-08 sur les transactions électroniques</td><td>Mentions légales, CGV claires, récapitulatif avant validation de commande, confirmation de commande.</td></tr>
+  <tr><td>Réglementation BCEAO sur les paiements</td><td>Encaissement uniquement via un agrégateur agréé ; mandat d’encaissement décrit dans les CGV et le contrat vendeur ; validation par un comptable ou un juriste avant le passage en production.</td></tr>
+  <tr><td>Existence légale de l’entreprise</td><td>Structure légale (entreprise individuelle ou SUARL) avec NINEA et RCCM, nécessaire au compte marchand et au compte Wave Business.</td></tr>
+  <tr><td>Propriété intellectuelle (marques des équipementiers et des clubs)</td><td>Mention obligatoire de l’authenticité ; interdiction de présenter une réplique comme officielle ; procédure de retrait sur signalement.</td></tr>
+</table>
+</section>
+
+<!-- ===================== 26 ===================== -->
+<section class="chap">
+<h1><span class="num">26.</span> Base de données</h1>
+<p>Base relationnelle MySQL 8 (ou MariaDB 10.6+), moteur InnoDB, encodage <code>utf8mb4</code>, collation <code>utf8mb4_unicode_ci</code>. <strong>Tous les noms de tables et de colonnes sont en français</strong>, en minuscules, sans accents ni espaces (<code>snake_case</code>).</p>
+<table>
+  <thead><tr><th class="w30">Table</th><th>Contenu</th></tr></thead>
+  <tr><td><code>utilisateurs</code></td><td>Comptes, rôle (client, vendeur, admin), e-mail, téléphone, téléphone vérifié, hachage du mot de passe, identifiant Google, statut.</td></tr>
+  <tr><td><code>codes_verification</code></td><td>Codes SMS et jetons e-mail hachés (type, expiration, essais).</td></tr>
+  <tr><td><code>tentatives_connexion</code></td><td>Limitation des essais de connexion.</td></tr>
+  <tr><td><code>adresses</code></td><td>Adresses de livraison des clients.</td></tr>
+  <tr><td><code>boutiques</code></td><td>Boutique du vendeur, numéros WhatsApp et Wave, statut.</td></tr>
+  <tr><td><code>zones_livraison</code></td><td>Zones gérées par l’admin.</td></tr>
+  <tr><td><code>tarifs_livraison</code></td><td>Tarif et délai par boutique et par zone.</td></tr>
+  <tr><td><code>categories</code></td><td>Équipes nationales, Clubs, Rétro.</td></tr>
+  <tr><td><code>equipes</code></td><td>Équipes (nom, pays, catégorie).</td></tr>
+  <tr><td><code>maillots</code></td><td>Annonces : titre, équipe, saison, type, authenticité, état, prix, flocage, statut.</td></tr>
+  <tr><td><code>maillot_tailles</code></td><td>Taille et stock par maillot.</td></tr>
+  <tr><td><code>maillot_images</code></td><td>Photos (fichier, miniature, ordre).</td></tr>
+  <tr><td><code>favoris</code></td><td>Favoris des utilisateurs.</td></tr>
+  <tr><td><code>paniers</code>, <code>panier_lignes</code></td><td>Panier (utilisateur ou session invitée).</td></tr>
+  <tr><td><code>commandes</code></td><td>Une commande par boutique : numéro, client, boutique, mode de paiement, statut, totaux, adresse copiée, code de livraison chiffré, dates clés.</td></tr>
+  <tr><td><code>commande_lignes</code></td><td>Copie du maillot commandé : titre, taille, flocage, prix unitaire, quantité.</td></tr>
+  <tr><td><code>commande_historique</code></td><td>Historique des statuts (ancien, nouveau, auteur, motif, date).</td></tr>
+  <tr><td><code>paiements</code></td><td>Transactions avec l’agrégateur : référence unique, montant, statut, données de vérification.</td></tr>
+  <tr><td><code>mouvements_portefeuille</code></td><td>Registre non modifiable : crédit, déblocage, blocage, remboursement, versement.</td></tr>
+  <tr><td><code>versements</code></td><td>Versements aux vendeurs (montant, référence Wave, admin, date).</td></tr>
+  <tr><td><code>litiges</code>, <code>litige_messages</code></td><td>Réclamations, échanges, pièces jointes et décision.</td></tr>
+  <tr><td><code>abonnements</code></td><td>Périodes d’abonnement : début, fin, statut.</td></tr>
+  <tr><td><code>paiements_abonnement</code></td><td>Paiements manuels : identifiant Wave (unique), capture, statut de validation.</td></tr>
+  <tr><td><code>mises_en_avant</code></td><td>Mises en avant (V1.1).</td></tr>
+  <tr><td><code>avis</code></td><td>Note, commentaire, réponse du vendeur, visibilité.</td></tr>
+  <tr><td><code>signalements</code></td><td>Signalements de vendeurs et de maillots, motif, décision.</td></tr>
+  <tr><td><code>notifications</code></td><td>Notifications in-app.</td></tr>
+  <tr><td><code>envois_sms</code></td><td>File d’attente et historique des SMS.</td></tr>
+  <tr><td><code>parametres</code></td><td>Paramètres configurables (annexe A).</td></tr>
+  <tr><td><code>journal_actions</code></td><td>Journal d’audit des actions sensibles.</td></tr>
+</table>
+<h2>26.1 Règles</h2>
+<ul>
+  <li>Clé primaire <code>id</code> (entier non signé auto-incrémenté) sur chaque table ; clés étrangères avec règles <code>ON DELETE</code> explicites.</li>
+  <li>Contraintes d’unicité : e-mail, nom de boutique, référence de paiement, identifiant de transaction Wave, numéro de commande, un avis par commande.</li>
+  <li>Index sur les champs de recherche et de filtre ; index <code>FULLTEXT</code> sur le titre des maillots.</li>
+  <li>Montants en <code>INT UNSIGNED</code> (FCFA sans décimales) ; dates en <code>DATETIME</code>, fuseau Africa/Dakar (UTC+0).</li>
+  <li>Suppression logique (<code>supprime_le</code>) pour les maillots, boutiques et utilisateurs liés à des commandes.</li>
+  <li>Le script <code>base_de_donnees.sql</code> crée la structure et les données de référence (catégories, équipes, zones, paramètres) ; jeu de données de test séparé et clairement identifié.</li>
+</ul>
+</section>
+
+<!-- ===================== 27 ===================== -->
+<section class="chap">
+<h1><span class="num">27.</span> Architecture technique et tâches planifiées</h1>
+<h2>27.1 Principes</h2>
+<ul>
+  <li>Application PHP traditionnelle : les pages génèrent le HTML côté serveur ; JavaScript vanilla uniquement pour améliorer l’expérience (galerie, panier, bascule de thème).</li>
+  <li>Configuration centralisée, connexion PDO unique, fonctions utilitaires centralisées, en-tête et pied de page partagés.</li>
+  <li>Pages publiques, espace vendeur et espace admin séparés ; traitements POST clairement organisés avec redirection après POST.</li>
+  <li>Logique métier (commandes, portefeuille, abonnements) regroupée dans des fichiers dédiés pour ne pas la dupliquer entre les pages.</li>
+  <li>Contrôle des permissions avant toute action protégée.</li>
+</ul>
+<h2>27.2 Bibliothèques autorisées (via Composer)</h2>
+<ul>
+  <li><code>league/oauth2-google</code> : connexion Google.</li>
+  <li><code>phpmailer/phpmailer</code> : envoi d’e-mails SMTP.</li>
+  <li><code>vlucas/phpdotenv</code> : variables d’environnement.</li>
+  <li>Extension PHP GD (ou Imagick) : traitement des images.</li>
+</ul>
+<p>Toute autre bibliothèque doit être validée avant d’être ajoutée.</p>
+<h2>27.3 Tâches planifiées (cron Infomaniak)</h2>
+<table>
+  <thead><tr><th class="w30">Tâche</th><th class="w15">Fréquence</th><th>Rôle</th></tr></thead>
+  <tr><td><code>envoyer_sms.php</code></td><td>Chaque minute</td><td>Envoyer la file de SMS, réessayer en cas d’échec.</td></tr>
+  <tr><td><code>commandes_expirees.php</code></td><td>Toutes les 5 min</td><td>Annuler les paiements non aboutis (30 min) et les commandes non confirmées (24h) ; restituer le stock ; envoyer les rappels vendeur.</td></tr>
+  <tr><td><code>verifier_paiements.php</code></td><td>Toutes les 10 min</td><td>Revérifier les paiements au statut inconnu.</td></tr>
+  <tr><td><code>debloquer_fonds.php</code></td><td>Toutes les 15 min</td><td>Passer en « Reçue » les commandes dont le délai (24h/48h) est écoulé et débloquer les fonds.</td></tr>
+  <tr><td><code>abonnements.php</code></td><td>Chaque jour à 8h</td><td>Rappels J-2, passage en grâce, rappels quotidiens, masquage à J+3, arrêt des mises en avant expirées.</td></tr>
+  <tr><td><code>nettoyage.php</code></td><td>Chaque nuit</td><td>Supprimer les paniers invités expirés, les codes expirés, les anciennes tentatives de connexion.</td></tr>
+</table>
+<p class="note">Chaque tâche est idempotente (relancée deux fois, elle ne fait rien de plus) et protégée contre l’exécution simultanée (verrou).</p>
+</section>
+
+<!-- ===================== 28 ===================== -->
+<section class="chap">
+<h1><span class="num">28.</span> Organisation des fichiers</h1>
+<pre>sama-maillot/
+├── public/                    ← seule racine web exposée
+│   ├── index.php
+│   ├── catalogue/  maillot/  boutique/  recherche/
+│   ├── panier/  commande/  paiement/
+│   ├── connexion/  inscription/  mot-de-passe/  compte/
+│   ├── vendeur/               ← espace vendeur
+│   ├── admin/                 ← espace administrateur
+│   ├── pages/                 ← à propos, FAQ, CGU, CGV, confidentialité…
+│   ├── webhooks/              ← notifications de l’agrégateur de paiement
+│   ├── css/  js/  images/
+│   └── uploads/               ← maillots/, boutiques/, litiges/ (PHP interdit)
+├── includes/
+│   ├── config.php  base_de_donnees.php  fonctions.php
+│   ├── securite.php  authentification.php
+│   ├── entete.php  pied_de_page.php
+│   └── metier/                ← commandes.php, portefeuille.php,
+│                                abonnements.php, notifications.php, sms.php
+├── taches/                    ← scripts cron
+├── journaux/                  ← fichiers de logs (hors web)
+├── sql/
+│   ├── base_de_donnees.sql
+│   └── donnees_test.sql
+├── vendor/                    ← Composer (hors web)
+├── .env                       ← secrets (jamais dans Git)
+├── .env.exemple
+└── .gitignore</pre>
+<p>Seul le dossier <code>public/</code> est accessible depuis le web. En local avec XAMPP, le projet est placé dans <code>C:\xampp\htdocs\sama-maillot</code> et un hôte virtuel pointe vers <code>public/</code>.</p>
+</section>
+
+<!-- ===================== 29 ===================== -->
+<section class="chap">
+<h1><span class="num">29.</span> Interface, UX/UI, responsive et performance</h1>
+<h2>29.1 Style</h2>
+<ul>
+  <li>Style professionnel inspiré du football et des marketplaces ; palette noir #111111, or #D4AF37, blanc #FFFFFF.</li>
+  <li>Mode clair et mode sombre, avec contraste vérifié dans les deux modes (l’or n’est pas utilisé pour du petit texte sur fond blanc).</li>
+  <li>Hiérarchie visuelle claire, cartes produits homogènes, formulaires simples, messages de succès et d’erreur compréhensibles en français simple.</li>
+  <li>Aucun faux élément destiné à donner une impression de popularité (faux compteurs, faux « 3 personnes regardent ce maillot »).</li>
+</ul>
+<h2>29.2 Mobile d’abord</h2>
+<ul>
+  <li>Conception d’abord pour les écrans de 360 px, puis tablettes et ordinateurs.</li>
+  <li>Boutons d’au moins 44 px de hauteur ; bouton « Ajouter au panier » fixe en bas de la fiche sur mobile.</li>
+  <li>Champs adaptés : clavier numérique pour le téléphone et les codes, préfixe +221 affiché.</li>
+</ul>
+<h2>29.3 Performance (connexions 3G/4G)</h2>
+<table>
+  <thead><tr><th class="w40">Indicateur</th><th>Cible</th></tr></thead>
+  <tr><td>Poids d’une page du catalogue</td><td>Moins de 1 Mo au premier chargement</td></tr>
+  <tr><td>Affichage du contenu principal (LCP) en 4G</td><td>Moins de 2,5 secondes</td></tr>
+  <tr><td>Score Lighthouse mobile (performance)</td><td>80 ou plus</td></tr>
+</table>
+<ul>
+  <li>Images servies en WebP avec chargement différé (<code>loading="lazy"</code>) ; dimensions déclarées.</li>
+  <li>Bootstrap chargé en version minifiée ; CSS et JavaScript propres minifiés ; mise en cache navigateur des fichiers statiques.</li>
+  <li>Compression gzip/brotli activée sur le serveur.</li>
+</ul>
+<h2>29.4 Images</h2>
+<table>
+  <thead><tr><th class="w30">Règle</th><th>Valeur</th></tr></thead>
+  <tr><td>Nombre par maillot</td><td>1 à 5</td></tr>
+  <tr><td>Formats acceptés</td><td>JPG, PNG, WebP</td></tr>
+  <tr><td>Taille maximale à l’envoi</td><td>5 Mo par photo</td></tr>
+  <tr><td>Dimension minimale</td><td>600 × 600 px</td></tr>
+  <tr><td>Versions générées</td><td>Grande 1200 px (WebP, qualité 80) et miniature 400 px (WebP)</td></tr>
+  <tr><td>Métadonnées</td><td>Supprimées (dont la localisation GPS)</td></tr>
+</table>
+</section>
+
+<!-- ===================== 30 ===================== -->
+<section class="chap">
+<h1><span class="num">30.</span> SEO et accessibilité</h1>
+<ul>
+  <li>Balises <code>title</code> et meta description uniques sur les pages publiques (accueil, catégories, équipes, fiches, boutiques).</li>
+  <li>URLs lisibles : <code>/maillot/senegal-domicile-2025-2026-142</code>, <code>/boutique/dakar-foot-store</code>.</li>
+  <li>Balises Open Graph pour un bel aperçu lors du partage sur WhatsApp et les réseaux sociaux.</li>
+  <li>Données structurées <code>Product</code> sur les fiches ; plan du site <code>sitemap.xml</code> ; <code>robots.txt</code>.</li>
+  <li>Pages privées et environnement de recette non indexés (<code>noindex</code>).</li>
+  <li>Accessibilité : attributs <code>alt</code> sur les images, labels associés aux champs, contraste suffisant, structure HTML sémantique, navigation au clavier, focus visible.</li>
+</ul>
+</section>
+
+<!-- ===================== 31 ===================== -->
+<section class="chap">
+<h1><span class="num">31.</span> Gestion des erreurs et journalisation</h1>
+<ul>
+  <li>Messages compréhensibles pour l’utilisateur ; jamais de trace SQL ni de chemin serveur affiché.</li>
+  <li>Pages d’erreur 403, 404 et 500 aux couleurs du site, avec lien de retour.</li>
+  <li>Journal technique des erreurs PHP côté serveur (dossier <code>journaux/</code>, rotation).</li>
+  <li>Journal d’audit (<code>journal_actions</code>) pour : connexions administrateur, changements de statut de commande, opérations du portefeuille, versements, remboursements, décisions de litige, suspensions, masquages, validations d’abonnement, modifications de paramètres. Il enregistre l’auteur, l’action, l’objet, l’ancienne et la nouvelle valeur, l’adresse IP et la date.</li>
+  <li>Aucun secret, mot de passe, code ou donnée de paiement complète dans les journaux.</li>
+  <li>Transactions SQL pour toutes les opérations en plusieurs étapes (commande, paiement, déblocage, versement, remboursement).</li>
+</ul>
+</section>
+
+<!-- ===================== 32 ===================== -->
+<section class="chap">
+<h1><span class="num">32.</span> Tests et recette</h1>
+<h2>32.1 Tests fonctionnels</h2>
+<ul>
+  <li>Inscription (e-mail, Google), connexion par e-mail et par téléphone, mot de passe oublié par SMS et par e-mail, déconnexion.</li>
+  <li>Règle « deux comptes par numéro » et essai unique.</li>
+  <li>Recherche avec et sans résultat, avec et sans accents ; filtres.</li>
+  <li>Panier invité puis fusion à la connexion ; regroupement par boutique et frais de livraison.</li>
+  <li>Commande en ligne, à la livraison et via WhatsApp ; code de livraison correct et incorrect.</li>
+  <li>Décrémentation et restitution du stock ; deux commandes simultanées sur la dernière pièce.</li>
+  <li>Toutes les transitions de statut autorisées et refusées ; annulations automatiques.</li>
+  <li>Déblocage des fonds à 24h, 48h et à la confirmation ; litige et remboursement ; versement.</li>
+  <li>Cycle complet d’abonnement : J-2, grâce, masquage, renouvellement, double utilisation d’un identifiant Wave.</li>
+  <li>Avis (conditions, unicité, réponse) ; 3 signalements et suspension automatique, levée par l’admin.</li>
+</ul>
+<h2>32.2 Tests de sécurité</h2>
+<p>Injection SQL, XSS dans tous les formulaires, CSRF, accès direct à une page protégée, accès d’un vendeur aux données d’un autre vendeur, envoi de fichier non autorisé (PHP renommé en .jpg), manipulation du prix ou de la quantité dans le navigateur, réutilisation d’une transaction, notification de paiement falsifiée, double soumission, force brute sur la connexion et les codes.</p>
+<h2>32.3 Tests responsive et appareils</h2>
+<p>Mobile 360 px (Android d’entrée de gamme), mobile large, tablette, ordinateur ; Chrome Android, Safari iOS, Opera Mini en mode économie de données ; connexion 3G simulée.</p>
+<h2>32.4 Tests automatisés</h2>
+<p>Tests PHPUnit sur la logique critique : calcul des totaux, transitions de statut, portefeuille, cycle d’abonnement, règles de signalement.</p>
+<h2>32.5 Recette</h2>
+<p>Recette sur l’environnement Infomaniak de test avec des comptes de démonstration (client, vendeur, admin) et des paiements en mode test, selon les critères du §35.</p>
+</section>
+
+<!-- ===================== 33 ===================== -->
+<section class="chap">
+<h1><span class="num">33.</span> Hébergement, déploiement et maintenance</h1>
+<h2>33.1 Environnements</h2>
+<table>
+  <thead><tr><th class="w20">Environnement</th><th class="w30">Emplacement</th><th>Usage</th></tr></thead>
+  <tr><td>Développement</td><td>XAMPP en local</td><td>Développement, données fictives.</td></tr>
+  <tr><td>Recette</td><td>Infomaniak, sous-domaine (ex. <code>test.samamaillot.sn</code>)</td><td>Tests en conditions réelles, protégé par mot de passe, non indexé, paiements en mode test.</td></tr>
+  <tr><td>Production</td><td>Infomaniak, domaine principal</td><td>Site public, HTTPS, paiements réels.</td></tr>
+</table>
+<div class="alerte"><strong>Vercel n’est pas retenu.</strong> Vercel ne prend pas en charge nativement PHP et MySQL, n’a pas de stockage permanent pour les photos envoyées et ne permet pas de tâches planifiées fiables. Tester sur Vercel ne reproduirait pas les conditions de production. La recette se fait donc directement sur Infomaniak.</div>
+<h2>33.2 Mise en production</h2>
+<ul>
+  <li>Configurer PHP 8.2 et les extensions (pdo_mysql, gd, mbstring, curl, intl, fileinfo).</li>
+  <li>Créer la base, importer <code>base_de_donnees.sql</code>, créer l’utilisateur MySQL à droits limités.</li>
+  <li>Créer le fichier <code>.env</code> (accès base, clés de l’agrégateur, SMS, SMTP, Google).</li>
+  <li>Pointer le domaine vers <code>public/</code> ; activer HTTPS (Let’s Encrypt) et la redirection HTTP vers HTTPS.</li>
+  <li>Vérifier les permissions du dossier <code>uploads/</code> et l’interdiction d’exécution PHP.</li>
+  <li>Programmer les tâches cron.</li>
+  <li>Désactiver l’affichage des erreurs.</li>
+</ul>
+<h2>33.3 Maintenance</h2>
+<ul>
+  <li>Code versionné avec Git (dépôt privé), branche principale protégée.</li>
+  <li>Sauvegardes : sauvegarde quotidienne automatique Infomaniak, plus un export hebdomadaire de la base et des photos conservé hors du serveur ; restauration testée une fois par trimestre.</li>
+  <li>Mise à jour régulière de PHP et des dépendances Composer.</li>
+  <li>Toute modification est testée en recette avant la production.</li>
+</ul>
+</section>
+
+<!-- ===================== 34 ===================== -->
+<section class="chap">
+<h1><span class="num">34.</span> Planning, lots et jalons</h1>
+<p>Estimation pour un développeur à temps plein. La date de mise en ligne est fixée par le porteur du projet à partir de la date de démarrage. Les jalons et la date de mise en ligne sont communiqués au client (commanditaire) et mis à jour à chaque fin de lot.</p>
+<table>
+  <thead><tr><th class="w25">Lot</th><th>Contenu</th><th class="w12">Durée</th></tr></thead>
+  <tr><td>0. Cadrage</td><td>Validation du cahier des charges, maquettes des pages principales, schéma de base de données, choix des prestataires SMS et paiement.</td><td>1 sem.</td></tr>
+  <tr><td>1. Socle</td><td>Configuration, PDO, <code>e()</code>, CSRF, en-tête et pied de page, thème clair/sombre, inscription, connexion (e-mail, téléphone, Google), vérification SMS, mot de passe oublié, rôles, pages d’erreur.</td><td>2 sem.</td></tr>
+  <tr><td>2. Catalogue</td><td>Catégories, équipes, catalogue, recherche, filtres de base, fiche maillot, page boutique, favoris.</td><td>2 sem.</td></tr>
+  <tr><td>3. Espace vendeur</td><td>Boutique, zones et tarifs de livraison, gestion des maillots, tailles et stock, flocage, photos.</td><td>2 sem.</td></tr>
+  <tr><td>4. Panier et commandes</td><td>Panier invité, regroupement par boutique, commande en paiement à la livraison, commande via WhatsApp, stock, statuts, code de livraison, annulations automatiques.</td><td>3 sem.</td></tr>
+  <tr><td>5. Administration</td><td>Tableau de bord, utilisateurs, modération des maillots, catalogue, signalements, suspension automatique, journal d’audit.</td><td>2 sem.</td></tr>
+  <tr><td>6. Abonnements et notifications</td><td>Cycle d’abonnement, paiement Wave manuel, notifications in-app, SMS et e-mail, tâches planifiées.</td><td>2 sem.</td></tr>
+  <tr><td>7. Confiance</td><td>Avis et réponses, réclamations et litiges.</td><td>2 sem.</td></tr>
+  <tr><td>8. Paiement en ligne</td><td>Intégration de l’agrégateur (mode test), séquestre, portefeuille, versements, remboursements.</td><td>3 sem.</td></tr>
+  <tr><td>9. Recette et lancement</td><td>Tests complets, corrections, pages légales, performance, SEO, mise en production.</td><td>2 sem.</td></tr>
+  <tr><td colspan="2"><strong>Total V1</strong></td><td><strong>≈ 21 sem.</strong></td></tr>
+  <tr><td>V1.1</td><td>Mise en avant, filtres avancés, statistiques vendeur.</td><td>3 sem.</td></tr>
+</table>
+<h2>34.1 Jalons</h2>
+<table>
+  <thead><tr><th class="w15">Jalon</th><th class="w25">Fin du lot</th><th>Démonstration attendue</th></tr></thead>
+  <tr><td>J1</td><td>Lot 2 (semaine 5)</td><td>Un visiteur s’inscrit, se connecte, cherche et consulte des maillots.</td></tr>
+  <tr><td>J2</td><td>Lot 4 (semaine 10)</td><td>Un vendeur publie un maillot, un client le commande en paiement à la livraison ou via WhatsApp, la livraison est confirmée par code.</td></tr>
+  <tr><td>J3</td><td>Lot 7 (semaine 16)</td><td>Abonnements, avis, signalements, litiges et administration fonctionnels.</td></tr>
+  <tr><td>J4</td><td>Lot 8 (semaine 19)</td><td>Paiement en ligne sécurisé complet en mode test.</td></tr>
+  <tr><td>J5</td><td>Lot 9 (semaine 21)</td><td>Mise en ligne.</td></tr>
+</table>
+<p class="note">Si le compte marchand n’est pas prêt à la fin du lot 9, le site peut être lancé avec le paiement à la livraison et la commande via WhatsApp ; le paiement en ligne est activé dès l’ouverture du compte marchand, sans autre développement.</p>
+</section>
+
+<!-- ===================== 35 ===================== -->
+<section class="chap">
+<h1><span class="num">35.</span> Critères d’acceptation</h1>
+<p>Une fonctionnalité est terminée lorsque son comportement normal fonctionne, que ses erreurs principales sont gérées, que ses contrôles de sécurité sont en place et qu’elle fonctionne sur mobile.</p>
+<table>
+  <thead><tr><th class="w20">Fonction</th><th>Critères minimaux</th></tr></thead>
+  <tr><td>Inscription</td><td>Données valides enregistrées, invalides refusées ; téléphone vendeur vérifié par SMS ; règle des deux comptes par numéro respectée.</td></tr>
+  <tr><td>Connexion</td><td>E-mail, téléphone et Google fonctionnent ; message d’erreur générique ; blocage après 5 échecs.</td></tr>
+  <tr><td>Mot de passe oublié</td><td>Code SMS ou lien e-mail valide, expirant et à usage unique.</td></tr>
+  <tr><td>Recherche</td><td>Le nom recherché (avec ou sans accents) retourne les maillots correspondants ou un message sans résultat.</td></tr>
+  <tr><td>Vendeur</td><td>Un vendeur ne gère que ses propres maillots et commandes ; ajout bloqué pendant la grâce.</td></tr>
+  <tr><td>Panier</td><td>Panier invité conservé et fusionné ; regroupement par boutique ; le serveur recalcule prix, stock, frais et total.</td></tr>
+  <tr><td>Commande</td><td>Une commande par boutique, avec copie des informations, numéro unique, code de livraison et historique des statuts.</td></tr>
+  <tr><td>Stock</td><td>Décrémenté à la commande, restitué à l’annulation ; le premier client obtient la dernière pièce.</td></tr>
+  <tr><td>Statuts</td><td>Seules les transitions de la matrice §12.4 sont possibles.</td></tr>
+  <tr><td>Paiement</td><td>Référence unique ; résultat vérifié côté serveur ; aucune double prise en compte.</td></tr>
+  <tr><td>Séquestre</td><td>Fonds débloqués uniquement à la confirmation ou après 24h/48h sans réclamation ; bloqués en cas de litige.</td></tr>
+  <tr><td>Abonnement</td><td>Statut et dates persistés et contrôlés côté serveur ; rappels J-2 et quotidiens ; masquage à J+3.</td></tr>
+  <tr><td>Avis</td><td>Uniquement après une commande reçue ; un avis par commande ; note de 1 à 5.</td></tr>
+  <tr><td>Signalement</td><td>Motif obligatoire ; suspension automatique à 3 clients différents ; levée uniquement par l’admin.</td></tr>
+  <tr><td>Admin</td><td>Actions réservées au rôle administrateur et journalisées.</td></tr>
+  <tr><td>Sécurité</td><td>PDO préparé, CSRF, hachage, échappement, validation et contrôle d’accès appliqués partout.</td></tr>
+  <tr><td>Performance</td><td>Page du catalogue de moins de 1 Mo ; Lighthouse mobile 80 ou plus.</td></tr>
+</table>
+</section>
+
+<!-- ===================== 36 ===================== -->
+<section class="chap">
+<h1><span class="num">36.</span> Parcours utilisateurs de référence</h1>
+<h2>36.1 Client — paiement en ligne</h2>
+<p>Accueil → recherche « Sénégal » → fiche maillot → choix de la taille → panier → connexion → adresse et vérification du téléphone → paiement Wave → SMS avec code de livraison → suivi → réception, remise du code → confirmation → avis 5 étoiles.</p>
+<h2>36.2 Client — commande via WhatsApp</h2>
+<p>Fiche maillot → choix de la taille → « Commander via WhatsApp » → connexion → commande créée en paiement à la livraison → discussion WhatsApp avec le vendeur → livraison et paiement contre code → avis.</p>
+<h2>36.3 Client — réclamation</h2>
+<p>Commande marquée livrée sans code → SMS d’alerte → « Signaler un problème » avec motif et photos → fonds bloqués → réponse du vendeur → décision de l’admin → remboursement Wave.</p>
+<h2>36.4 Vendeur</h2>
+<p>Inscription → vérification du téléphone → création de la boutique et des zones de livraison → essai de 14 jours → publication des maillots → SMS « Nouvelle commande » → confirmation → expédition → saisie du code de livraison → fonds disponibles 24h après → versement Wave le mardi ou le vendredi → rappel J-2 → renouvellement par Wave → validation par l’admin.</p>
+<h2>36.5 Administrateur</h2>
+<p>Connexion avec code SMS → tableau de bord → files prioritaires (litiges, suspensions, paiements d’abonnement, versements) → arbitrage → modération des maillots signalés → versements groupés → consultation du journal d’audit.</p>
+</section>
+
+<!-- ===================== 37 ===================== -->
+<section class="chap">
+<h1><span class="num">37.</span> Évolutions futures (V2)</h1>
+<ul>
+  <li>Commission sur les ventes payées en ligne.</li>
+  <li>Paiement automatique des abonnements et versements automatiques aux vendeurs via l’API de l’agrégateur.</li>
+  <li>Notifications WhatsApp Business API.</li>
+  <li>Connexion avec Apple.</li>
+  <li>Badge « Vendeur vérifié » (contrôle de la pièce d’identité).</li>
+  <li>Retours et échanges encadrés (par exemple pour une mauvaise taille).</li>
+  <li>Codes promotionnels et ventes flash (CAN, Coupe du monde).</li>
+  <li>Alertes « Ce maillot est de nouveau disponible ».</li>
+  <li>Partenariat avec des sociétés de livraison.</li>
+  <li>Application mobile ; API publique sécurisée ; recommandations personnalisées.</li>
+</ul>
+</section>
+
+<!-- ===================== 38 ===================== -->
+<section class="chap">
+<h1><span class="num">38.</span> Conclusion</h1>
+<p>Ce cahier des charges constitue la référence fonctionnelle et technique de SAMA MAILLOT. Il adapte la marketplace aux réalités du Sénégal : paiement mobile, paiement à la livraison, WhatsApp, SMS, connexions mobiles et besoin de confiance entre acheteurs et vendeurs.</p>
+<p>Le développement se fait progressivement, lot par lot, sans introduire de technologie ou d’architecture non prévue sans validation préalable. Toute fonctionnalité financière est développée avec des données de test clairement identifiées et ne simule jamais un paiement réel.</p>
+<p><strong>Principe directeur : simplicité pour l’utilisateur, contrôle côté serveur, sécurité par défaut, données réelles plutôt que faux chiffres, architecture maintenable.</strong></p>
+</section>
+
+<!-- ===================== ANNEXES ===================== -->
+<section class="chap saut">
+<h1><span class="num">A.</span> Annexe — Paramètres configurables</h1>
+<p>Valeurs par défaut, modifiables par l’administrateur dans la table <code>parametres</code> (chaque modification est journalisée).</p>
+<table>
+  <thead><tr><th class="w40">Paramètre</th><th class="w20">Valeur par défaut</th><th>Section</th></tr></thead>
+  <tr><td>Durée de l’essai gratuit</td><td>14 jours</td><td>§18</td></tr>
+  <tr><td>Prix de l’abonnement mensuel</td><td>3 000 FCFA</td><td>§18</td></tr>
+  <tr><td>Rappel avant fin d’abonnement</td><td>2 jours</td><td>§18</td></tr>
+  <tr><td>Période de grâce avant masquage</td><td>3 jours</td><td>§18</td></tr>
+  <tr><td>Délai de déblocage avec code de livraison</td><td>24 heures</td><td>§13</td></tr>
+  <tr><td>Délai de déblocage sans code</td><td>48 heures</td><td>§13</td></tr>
+  <tr><td>Délai de confirmation par le vendeur</td><td>24 heures</td><td>§12</td></tr>
+  <tr><td>Délai de paiement en ligne</td><td>30 minutes</td><td>§12</td></tr>
+  <tr><td>Délai de réponse du vendeur à un litige</td><td>48 heures</td><td>§16</td></tr>
+  <tr><td>Frais de transaction déduits</td><td>Taux réel de l’agrégateur</td><td>§6</td></tr>
+  <tr><td>Commission sur les ventes</td><td>0 %</td><td>§6</td></tr>
+  <tr><td>Jours de versement</td><td>Mardi et vendredi</td><td>§15</td></tr>
+  <tr><td>Montant minimum de versement</td><td>1 000 FCFA</td><td>§15</td></tr>
+  <tr><td>Signalements avant suspension</td><td>3 clients différents</td><td>§21</td></tr>
+  <tr><td>Période de comptage des signalements</td><td>90 jours</td><td>§21</td></tr>
+  <tr><td>Délai pour laisser un avis</td><td>30 jours</td><td>§20</td></tr>
+  <tr><td>Commandes à la livraison simultanées par client</td><td>3</td><td>§12</td></tr>
+  <tr><td>Refus de livraison avant blocage du paiement à la livraison</td><td>3</td><td>§12</td></tr>
+  <tr><td>Photos par maillot / taille maximale</td><td>5 / 5 Mo</td><td>§29</td></tr>
+  <tr><td>Tarifs de mise en avant</td><td>7 j : 1 000 FCFA ; 30 j : 3 000 FCFA</td><td>§19</td></tr>
+  <tr><td>Numéro Wave de la plateforme</td><td>À renseigner</td><td>§18</td></tr>
+  <tr><td>Numéro WhatsApp du support</td><td>À renseigner</td><td>§7</td></tr>
+</table>
+</section>
+
+<section class="chap">
+<h1><span class="num">B.</span> Annexe — Hypothèses retenues à confirmer</h1>
+<p>Les points suivants n’avaient pas encore été tranchés. La solution la plus adaptée au contexte a été retenue ; elle peut être modifiée avant le lot 0.</p>
+<table>
+  <thead><tr><th class="w35">Sujet</th><th>Hypothèse retenue</th></tr></thead>
+  <tr><td>Délais de déblocage</td><td>24h avec code de livraison, 48h sans code, immédiat si le client confirme.</td></tr>
+  <tr><td>Protection en paiement à la livraison</td><td>Médiation et signalement uniquement ; pas de remboursement par la plateforme.</td></tr>
+  <tr><td>Commission</td><td>0 % en phase 1, abonnement seul.</td></tr>
+  <tr><td>« Deux comptes par numéro »</td><td>Un compte client et un compte vendeur.</td></tr>
+  <tr><td>Période de grâce</td><td>Maillots visibles et commandables ; ajout de maillots bloqué.</td></tr>
+  <tr><td>Frais de livraison</td><td>Fixés par le vendeur pour chaque zone, payés par le client.</td></tr>
+  <tr><td>Annulation par le client</td><td>Possible tant que la commande n’est pas expédiée.</td></tr>
+  <tr><td>Retours et échanges</td><td>À la discrétion du vendeur en V1 ; encadrés en V2.</td></tr>
+  <tr><td>Répliques</td><td>Autorisées si déclarées comme telles.</td></tr>
+  <tr><td>Flocage et tailles enfants</td><td>Inclus dès la V1.</td></tr>
+  <tr><td>Connexion Apple</td><td>Reportée en V2.</td></tr>
+  <tr><td>Équipe de développement</td><td>Un développeur à temps plein (base du planning).</td></tr>
+  <tr><td>Prérequis non techniques</td><td>Nom de domaine, structure légale (NINEA), compte Wave Business, compte fournisseur SMS : à obtenir avant le lot 8.</td></tr>
+</table>
+</section>
+
+<section class="chap">
+<h1><span class="num">C.</span> Annexe — Glossaire</h1>
+<table>
+  <thead><tr><th class="w25">Terme</th><th>Définition</th></tr></thead>
+  <tr><td>Agrégateur de paiement</td><td>Prestataire agréé qui permet d’encaisser en ligne via Wave, Orange Money, Free Money ou carte (ex. PayDunya, PayTech, CinetPay, Wave Business).</td></tr>
+  <tr><td>Séquestre (paiement sécurisé)</td><td>L’argent du client est conservé par la plateforme jusqu’à la confirmation de la livraison.</td></tr>
+  <tr><td>Code de livraison</td><td>Code à 4 chiffres reçu par SMS, que le client remet au livreur pour prouver la livraison.</td></tr>
+  <tr><td>Portefeuille vendeur</td><td>Ensemble des soldes du vendeur (en attente, disponible, bloqué, versé).</td></tr>
+  <tr><td>Période de grâce</td><td>3 jours après la fin de l’abonnement pendant lesquels les maillots restent visibles.</td></tr>
+  <tr><td>Réplique</td><td>Copie d’un maillot officiel, vendue comme telle.</td></tr>
+  <tr><td>Version fan</td><td>Maillot officiel destiné aux supporters (par opposition à la version joueur).</td></tr>
+  <tr><td>Flocage</td><td>Impression du nom et du numéro au dos du maillot.</td></tr>
+  <tr><td>OTP</td><td>Code à usage unique envoyé par SMS.</td></tr>
+  <tr><td>Tâche planifiée (cron)</td><td>Script exécuté automatiquement par le serveur à intervalle régulier.</td></tr>
+  <tr><td>CDP</td><td>Commission de protection des données personnelles du Sénégal.</td></tr>
+  <tr><td>NINEA</td><td>Numéro d’identification national des entreprises et associations.</td></tr>
+  <tr><td>SSR</td><td>Rendu côté serveur : le HTML est généré par PHP.</td></tr>
+</table>
+</section>
+
+</body>
+</html>
