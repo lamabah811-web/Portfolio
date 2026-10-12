@@ -4,171 +4,515 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lamarana Bah | Lama-dev - Développeur Web</title>
+    <meta name="description" content="Lamarana Bah (Lama-dev), développeur web & spécialiste WordPress. Création de sites modernes, rapides et responsives.">
+    <meta property="og:title" content="Lamarana Bah | Lama-dev - Développeur Web">
+    <meta property="og:description" content="Développeur web & spécialiste CMS. Sites modernes, rapides et responsives.">
+    <meta property="og:image" content="lamarana.jpg">
+    <meta name="theme-color" content="#07070c">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='.5' stop-color='%23c084fc'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='40' height='40' rx='11' fill='url(%23g)'/%3E%3Cg fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 13 8 20l6.5 7M25.5 13 32 20l-6.5 7'/%3E%3Cpath d='M22.8 11.5 17.2 28.5' opacity='.85'/%3E%3C/g%3E%3C/svg%3E">
+
+    <!-- Thème appliqué avant le rendu pour éviter le flash -->
+    <script>
+        try {
+            const t = localStorage.getItem('theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
+
     <!-- FontAwesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Éléments décoratifs -->
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-blobs" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader" aria-hidden="true">
+        <div class="loader-logo"><span class="logo-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path class="lm-l" d="M14.5 13 8 20l6.5 7"/><path class="lm-s" d="M22.8 11.5 17.2 28.5"/><path class="lm-r" d="M25.5 13 32 20l-6.5 7"/></svg></span><span>Lama<span class="accent">-dev</span></span></div>
+        <div class="loader-bar"><span></span></div>
+    </div>
+
     <!-- Header / Navbar -->
     <header class="navbar">
         <div class="container nav-container">
-            <a href="#hero" class="logo">Lama<span>-dev</span></a>
-            <nav>
+            <a href="#hero" class="logo" aria-label="Lama-dev, développeur web - Accueil"><span class="logo-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path class="lm-l" d="M14.5 13 8 20l6.5 7"/><path class="lm-s" d="M22.8 11.5 17.2 28.5"/><path class="lm-r" d="M25.5 13 32 20l-6.5 7"/></svg></span><span class="logo-text"><span class="logo-name">Lama<span class="accent">-dev</span></span><span class="logo-tag">Développeur Web</span></span></a>
+            <nav class="nav" aria-label="Navigation principale">
                 <ul class="nav-links">
-                    <li><a href="#hero">Accueil</a></li>
-                    <li><a href="#about">À propos</a></li>
-                    <li><a href="#skills">Compétences</a></li>
-                    <li><a href="#projects">Projets</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about" class="nav-link">À propos</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#skills" class="nav-link">Compétences</a></li>
+                    <li><a href="#projects" class="nav-link">Projets</a></li>
+                    <li><a href="#process" class="nav-link">Méthode</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
-            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
-                <i class="fa-solid fa-moon"></i>
-            </button>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn" aria-label="Changer le thème">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <a href="#contact" class="btn btn-primary btn-sm nav-cta">Travaillons ensemble</a>
+                <button class="icon-btn burger" aria-label="Ouvrir le menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <div class="container hero-container">
-            <div class="hero-text">
-                <span class="badge">Bienvenue sur mon portfolio</span>
-                <h1>Bonjour, je suis <br><span class="highlight">Lamarana Bah</span></h1>
-                <h2>Développeur Web & Spécialiste CMS</h2>
-                <p>Je suis passionné par le développement web et la création de solutions numériques modernes, fonctionnelles et responsives.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">Me Contacter</a>
-                    <a href="#projects" class="btn btn-secondary">Voir mes projets</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="image-wrapper">
-                    <!-- Ton image ici -->
-                    <img src="lamarana.jpg" alt="Lamarana Bah - Lama-dev">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section À Propos -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">À Propos de <span>Moi</span></h2>
-            <div class="about-content">
-                <p>Moi c'est <strong>Lamarana Bah</strong>, plus connu sous le nom de <strong>Lama-dev</strong>. Je conçois des sites web dynamiques, réactifs et esthétiques. Que ce soit pour concevoir une interface épurée, intégrer une maquette avec Bootstrap, développer des fonctionnalités dynamiques en PHP ou créer un site complet sous WordPress, j'apporte une solution technique adaptée à chaque besoin.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Compétences -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Mes <span>Compétences</span></h2>
-            
-            <h3 class="subsection-title"><i class="fa-solid fa-code"></i> Développement Web</h3>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fa-brands fa-html5 skill-icon html"></i>
-                    <h4>HTML5</h4>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-brands fa-css3-alt skill-icon css"></i>
-                    <h4>CSS3</h4>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-brands fa-bootstrap skill-icon bootstrap"></i>
-                    <h4>Bootstrap</h4>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-brands fa-php skill-icon php"></i>
-                    <h4>PHP</h4>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-brands fa-wordpress skill-icon wordpress"></i>
-                    <h4>WordPress</h4>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-brands fa-js skill-icon js"></i>
-                    <h4>JavaScript</h4>
-                </div>
-            </div>
-
-            <h3 class="subsection-title"><i class="fa-solid fa-briefcase"></i> Outils Bureautiques</h3>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fa-file-word skill-icon word"></i>
-                    <h4>Microsoft Word</h4>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-file-excel skill-icon excel"></i>
-                    <h4>Microsoft Excel</h4>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-file-powerpoint skill-icon powerpoint"></i>
-                    <h4>PowerPoint</h4>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Projets -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Mes <span>Projets</span></h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-info">
-                        <h3>Site E-commerce WordPress</h3>
-                        <p>Création d'une boutique en ligne complète et sécurisée sous WordPress.</p>
-                        <span class="tag">WordPress</span> <span class="tag">CSS</span>
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="container hero-container">
+                <div class="hero-text">
+                    <span class="status-badge reveal">
+                        <span class="pulse"></span> Disponible : emploi, stage ou freelance
+                    </span>
+                    <h1 class="reveal" style="--d: .1s">
+                        Bonjour, je suis<br>
+                        <span class="gradient-text">Lamarana Bah</span>
+                    </h1>
+                    <p class="hero-role reveal" style="--d: .2s">
+                        <span class="mono">&gt;</span> <span class="typing" aria-live="polite">Développeur Web & Spécialiste CMS</span><span class="caret"></span>
+                    </p>
+                    <p class="hero-desc reveal" style="--d: .3s">
+                        Je conçois des sites web <strong>modernes, rapides et responsives</strong> qui transforment les idées en expériences numériques efficaces, du design jusqu'à la mise en ligne.
+                    </p>
+                    <div class="hero-buttons reveal" style="--d: .4s">
+                        <a href="#projects" class="btn btn-primary magnetic">
+                            Voir mes projets <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#contact" class="btn btn-ghost magnetic">
+                            <i class="fa-regular fa-paper-plane"></i> Me contacter
+                        </a>
+                    </div>
+                    <div class="hero-socials reveal" style="--d: .5s">
+                        <a href="#" class="social-pill sp-github" data-social="github"><i class="fa-brands fa-github"></i> GitHub</a>
+                        <a href="#" class="social-pill sp-linkedin" data-social="linkedin"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
+                        <a href="#" class="social-pill sp-whatsapp" data-social="whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
                     </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-info">
-                        <h3>Application Web PHP / MySQL</h3>
-                        <p>Gestion de données et espaces utilisateurs sur mesure.</p>
-                        <span class="tag">PHP</span> <span class="tag">Bootstrap</span>
+
+                <div class="hero-visual reveal" style="--d: .3s">
+                    <div class="photo-card tilt">
+                        <div class="photo-ring"></div>
+                        <img src="lamarana.jpg" alt="Lamarana Bah travaillant sur son ordinateur">
+                        <div class="photo-overlay"></div>
                     </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-info">
-                        <h3>Landing Page Responsive</h3>
-                        <p>Intégration d'une maquette moderne adaptée mobile, tablette et desktop.</p>
-                        <span class="tag">HTML</span> <span class="tag">CSS</span> <span class="tag">JS</span>
+                    <div class="float-card fc-1">
+                        <i class="fa-brands fa-wordpress"></i>
+                        <div><strong>WordPress</strong><small>Expert CMS</small></div>
+                    </div>
+                    <div class="float-card fc-2">
+                        <i class="fa-solid fa-code"></i>
+                        <div><strong>Code propre</strong><small>HTML · CSS · PHP · JS</small></div>
+                    </div>
+                    <div class="float-card fc-3">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <div><strong>100% Responsive</strong><small>Mobile first</small></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Section Contact -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Me <span>Contacter</span></h2>
-            <form class="contact-form">
-                <div class="form-group">
-                    <input type="text" placeholder="Votre nom" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" placeholder="Votre email" required>
-                </div>
-                <div class="form-group">
-                    <textarea placeholder="Votre message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Envoyer le message</button>
-            </form>
+            <a href="#about" class="scroll-indicator" aria-label="Défiler vers le bas">
+                <span class="mouse"><span class="wheel"></span></span>
+            </a>
+        </section>
+
+        <!-- Bandeau défilant -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <span>HTML5</span><i class="fa-solid fa-asterisk"></i>
+                <span>CSS3</span><i class="fa-solid fa-asterisk"></i>
+                <span>JavaScript</span><i class="fa-solid fa-asterisk"></i>
+                <span>PHP</span><i class="fa-solid fa-asterisk"></i>
+                <span>MySQL</span><i class="fa-solid fa-asterisk"></i>
+                <span>WordPress</span><i class="fa-solid fa-asterisk"></i>
+                <span>Bootstrap</span><i class="fa-solid fa-asterisk"></i>
+                <span>Responsive Design</span><i class="fa-solid fa-asterisk"></i>
+                <span>UI / UX</span><i class="fa-solid fa-asterisk"></i>
+            </div>
         </div>
-    </section>
+
+        <!-- Section À Propos -->
+        <section id="about" class="about">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="eyebrow"><span class="mono">01.</span> À propos</span>
+                    <h2 class="section-title">Le développeur derrière <span class="gradient-text">Lama-dev</span></h2>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-text reveal">
+                        <p class="lead">
+                            Moi c'est <strong>Lamarana Bah</strong>, plus connu sous le nom de <strong>Lama-dev</strong>. Je conçois des sites web dynamiques, réactifs et esthétiques.
+                        </p>
+                        <p>
+                            Que ce soit pour concevoir une interface épurée, intégrer une maquette avec Bootstrap, développer des fonctionnalités dynamiques en PHP ou créer un site complet sous WordPress, j'apporte une solution technique adaptée à chaque besoin.
+                        </p>
+                        <p>
+                            Fraîchement diplômé de ma formation en développement web, je suis motivé, curieux et prêt à mettre mes compétences au service de vos projets. Ma conviction : <em>l'informatique au service d'un meilleur avenir</em>.
+                        </p>
+                        <ul class="about-list">
+                            <li><i class="fa-solid fa-check"></i> Code propre & maintenable</li>
+                            <li><i class="fa-solid fa-check"></i> Design moderne & responsive</li>
+                            <li><i class="fa-solid fa-check"></i> Communication claire</li>
+                            <li><i class="fa-solid fa-check"></i> Respect des délais</li>
+                        </ul>
+                        <a href="#contact" class="link-arrow">Discutons de votre projet <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="stats">
+                        <div class="stat-card reveal" style="--d: .05s">
+                            <span class="stat-number" data-count="3" data-suffix="">0</span>
+                            <span class="stat-label">Projets réalisés</span>
+                        </div>
+                        <div class="stat-card reveal" style="--d: .1s">
+                            <span class="stat-number" data-count="1" data-suffix="">0</span>
+                            <span class="stat-label">Formation en développement web</span>
+                        </div>
+                        <div class="stat-card reveal" style="--d: .15s">
+                            <span class="stat-number" data-count="6" data-suffix="">0</span>
+                            <span class="stat-label">Technologies maîtrisées</span>
+                        </div>
+                        <div class="stat-card reveal" style="--d: .2s">
+                            <span class="stat-number" data-count="100" data-suffix="%">0</span>
+                            <span class="stat-label">Motivé & prêt à apprendre</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Services -->
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="eyebrow"><span class="mono">02.</span> Services</span>
+                    <h2 class="section-title">Ce que je peux <span class="gradient-text">faire pour vous</span></h2>
+                    <p class="section-sub">Des solutions sur mesure, de la simple page vitrine à l'application web complète.</p>
+                </div>
+
+                <div class="services-grid">
+                    <article class="service-card spotlight reveal" style="--d: .05s">
+                        <div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                        <h3>Développement Web</h3>
+                        <p>Sites vitrines et applications web sur mesure en HTML, CSS, JavaScript et PHP / MySQL.</p>
+                        <span class="service-num">01</span>
+                    </article>
+                    <article class="service-card spotlight reveal" style="--d: .1s">
+                        <div class="service-icon"><i class="fa-brands fa-wordpress-simple"></i></div>
+                        <h3>Sites WordPress</h3>
+                        <p>Création, personnalisation et maintenance de sites WordPress et de boutiques WooCommerce.</p>
+                        <span class="service-num">02</span>
+                    </article>
+                    <article class="service-card spotlight reveal" style="--d: .15s">
+                        <div class="service-icon"><i class="fa-solid fa-pen-ruler"></i></div>
+                        <h3>Intégration de maquettes</h3>
+                        <p>Transformation de vos maquettes (Figma, XD…) en pages pixel-perfect et responsives.</p>
+                        <span class="service-num">03</span>
+                    </article>
+                    <article class="service-card spotlight reveal" style="--d: .2s">
+                        <div class="service-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                        <h3>Optimisation & SEO</h3>
+                        <p>Amélioration des performances, de l'accessibilité et du référencement naturel de votre site.</p>
+                        <span class="service-num">04</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Compétences -->
+        <section id="skills" class="skills">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="eyebrow"><span class="mono">03.</span> Compétences</span>
+                    <h2 class="section-title">Ma <span class="gradient-text">boîte à outils</span></h2>
+                </div>
+
+                <div class="skills-layout">
+                    <div class="skills-block reveal">
+                        <h3 class="block-title"><i class="fa-solid fa-code"></i> Développement Web</h3>
+                        <div class="skills-grid">
+                            <div class="skill-card spotlight" style="--c: #e34f26">
+                                <i class="fa-brands fa-html5"></i><span>HTML5</span>
+                            </div>
+                            <div class="skill-card spotlight" style="--c: #2965f1">
+                                <i class="fa-brands fa-css3-alt"></i><span>CSS3</span>
+                            </div>
+                            <div class="skill-card spotlight" style="--c: #f7df1e">
+                                <i class="fa-brands fa-js"></i><span>JavaScript</span>
+                            </div>
+                            <div class="skill-card spotlight" style="--c: #8892bf">
+                                <i class="fa-brands fa-php"></i><span>PHP</span>
+                            </div>
+                            <div class="skill-card spotlight" style="--c: #7952b3">
+                                <i class="fa-brands fa-bootstrap"></i><span>Bootstrap</span>
+                            </div>
+                            <div class="skill-card spotlight" style="--c: #21759b">
+                                <i class="fa-brands fa-wordpress"></i><span>WordPress</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skills-block reveal" style="--d: .1s">
+                        <h3 class="block-title"><i class="fa-solid fa-chart-simple"></i> Niveau de maîtrise</h3>
+                        <div class="bars">
+                            <div class="bar" data-level="90"><div class="bar-head"><span>HTML & CSS</span><span class="bar-val">90%</span></div><div class="bar-track"><span></span></div></div>
+                            <div class="bar" data-level="85"><div class="bar-head"><span>WordPress</span><span class="bar-val">85%</span></div><div class="bar-track"><span></span></div></div>
+                            <div class="bar" data-level="80"><div class="bar-head"><span>Bootstrap</span><span class="bar-val">80%</span></div><div class="bar-track"><span></span></div></div>
+                            <div class="bar" data-level="75"><div class="bar-head"><span>PHP / MySQL</span><span class="bar-val">75%</span></div><div class="bar-track"><span></span></div></div>
+                            <div class="bar" data-level="70"><div class="bar-head"><span>JavaScript</span><span class="bar-val">70%</span></div><div class="bar-track"><span></span></div></div>
+                        </div>
+                    </div>
+
+                    <div class="skills-block skills-office reveal" style="--d: .15s">
+                        <h3 class="block-title"><i class="fa-solid fa-briefcase"></i> Outils Bureautiques</h3>
+                        <div class="office-list">
+                            <div class="office-item" style="--c: #2b579a"><i class="fa-solid fa-file-word"></i> Microsoft Word</div>
+                            <div class="office-item" style="--c: #217346"><i class="fa-solid fa-file-excel"></i> Microsoft Excel</div>
+                            <div class="office-item" style="--c: #d24726"><i class="fa-solid fa-file-powerpoint"></i> PowerPoint</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Projets -->
+        <section id="projects" class="projects">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="eyebrow"><span class="mono">04.</span> Projets</span>
+                    <h2 class="section-title">Réalisations <span class="gradient-text">sélectionnées</span></h2>
+                    <p class="section-sub">Quelques projets qui illustrent mon savoir-faire.</p>
+                </div>
+
+                <div class="filters reveal" role="tablist">
+                    <button class="filter active" data-filter="all">Tous</button>
+                    <button class="filter" data-filter="wordpress">WordPress</button>
+                    <button class="filter" data-filter="php">PHP</button>
+                    <button class="filter" data-filter="front">Front-end</button>
+                </div>
+
+                <div class="projects-grid">
+                    <article class="project-card tilt reveal" data-category="wordpress" style="--d: .05s">
+                        <div class="project-visual v-1">
+                            <div class="mock-browser">
+                                <div class="mock-bar"><i></i><i></i><i></i></div>
+                                <div class="mock-body">
+                                    <div class="mock-line w60"></div>
+                                    <div class="mock-line w40"></div>
+                                    <div class="mock-grid"><span></span><span></span><span></span></div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-cart-shopping project-emblem"></i>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-top">
+                                <span class="project-type">E-commerce</span>
+                                <div class="project-links">
+                                    <a href="#" data-social="github" aria-label="Voir le code"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#" aria-label="Voir le site"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                </div>
+                            </div>
+                            <h3>Site E-commerce WordPress</h3>
+                            <p>Création d'une boutique en ligne complète et sécurisée sous WordPress, avec gestion des produits, du panier et des paiements.</p>
+                            <div class="tags"><span>WordPress</span><span>WooCommerce</span><span>CSS</span></div>
+                        </div>
+                    </article>
+
+                    <article class="project-card tilt reveal" data-category="php" style="--d: .1s">
+                        <div class="project-visual v-2">
+                            <div class="mock-browser">
+                                <div class="mock-bar"><i></i><i></i><i></i></div>
+                                <div class="mock-body mock-dash">
+                                    <div class="mock-side"></div>
+                                    <div class="mock-main">
+                                        <div class="mock-line w50"></div>
+                                        <div class="mock-chart"><span style="--h:40%"></span><span style="--h:70%"></span><span style="--h:55%"></span><span style="--h:90%"></span><span style="--h:65%"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-database project-emblem"></i>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-top">
+                                <span class="project-type">Application web</span>
+                                <div class="project-links">
+                                    <a href="#" data-social="github" aria-label="Voir le code"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#" aria-label="Voir le site"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                </div>
+                            </div>
+                            <h3>Application Web PHP / MySQL</h3>
+                            <p>Gestion de données et espaces utilisateurs sur mesure : authentification, tableau de bord et administration.</p>
+                            <div class="tags"><span>PHP</span><span>MySQL</span><span>Bootstrap</span></div>
+                        </div>
+                    </article>
+
+                    <article class="project-card tilt reveal" data-category="front" style="--d: .15s">
+                        <div class="project-visual v-3">
+                            <div class="mock-devices">
+                                <div class="mock-browser">
+                                    <div class="mock-bar"><i></i><i></i><i></i></div>
+                                    <div class="mock-body">
+                                        <div class="mock-hero"></div>
+                                        <div class="mock-line w70"></div>
+                                        <div class="mock-line w40"></div>
+                                    </div>
+                                </div>
+                                <div class="mock-phone"><div class="mock-hero"></div><div class="mock-line w70"></div><div class="mock-line w40"></div></div>
+                            </div>
+                            <i class="fa-solid fa-mobile-screen project-emblem"></i>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-top">
+                                <span class="project-type">Landing page</span>
+                                <div class="project-links">
+                                    <a href="#" data-social="github" aria-label="Voir le code"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#" aria-label="Voir le site"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                </div>
+                            </div>
+                            <h3>Landing Page Responsive</h3>
+                            <p>Intégration d'une maquette moderne et animée, parfaitement adaptée au mobile, à la tablette et au desktop.</p>
+                            <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Méthode -->
+        <section id="process" class="process">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="eyebrow"><span class="mono">05.</span> Méthode</span>
+                    <h2 class="section-title">Comment je <span class="gradient-text">travaille</span></h2>
+                </div>
+
+                <ol class="timeline">
+                    <li class="step reveal">
+                        <span class="step-dot"><i class="fa-regular fa-comments"></i></span>
+                        <div class="step-content">
+                            <span class="step-num">Étape 01</span>
+                            <h3>Échange & analyse</h3>
+                            <p>On discute de vos objectifs, de votre cible et de vos besoins pour définir le projet.</p>
+                        </div>
+                    </li>
+                    <li class="step reveal" style="--d: .1s">
+                        <span class="step-dot"><i class="fa-solid fa-pen-nib"></i></span>
+                        <div class="step-content">
+                            <span class="step-num">Étape 02</span>
+                            <h3>Conception</h3>
+                            <p>Je propose une structure et un design clair, validés avec vous avant le développement.</p>
+                        </div>
+                    </li>
+                    <li class="step reveal" style="--d: .2s">
+                        <span class="step-dot"><i class="fa-solid fa-code"></i></span>
+                        <div class="step-content">
+                            <span class="step-num">Étape 03</span>
+                            <h3>Développement</h3>
+                            <p>Je développe un site rapide, sécurisé et responsive, avec des points d'avancement réguliers.</p>
+                        </div>
+                    </li>
+                    <li class="step reveal" style="--d: .3s">
+                        <span class="step-dot"><i class="fa-solid fa-rocket"></i></span>
+                        <div class="step-content">
+                            <span class="step-num">Étape 04</span>
+                            <h3>Mise en ligne & suivi</h3>
+                            <p>Déploiement, tests finaux et accompagnement pour que votre site reste performant.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="contact-card reveal">
+                    <div class="contact-info">
+                        <span class="eyebrow"><span class="mono">06.</span> Contact</span>
+                        <h2 class="section-title">Un projet en tête ?<br><span class="gradient-text">Parlons-en.</span></h2>
+                        <p>Je suis à la recherche d'un premier poste, d'un stage ou de missions freelance. Écrivez-moi, je réponds en général sous 24h.</p>
+
+                        <div class="contact-items">
+                            <a href="#" class="contact-item" data-contact="email">
+                                <span class="ci-icon"><i class="fa-regular fa-envelope"></i></span>
+                                <span><small>Email</small><strong class="ci-email">votre-email@exemple.com</strong></span>
+                            </a>
+                            <a href="#" class="contact-item" data-social="whatsapp">
+                                <span class="ci-icon ci-whatsapp"><i class="fa-brands fa-whatsapp"></i></span>
+                                <span><small>WhatsApp / Téléphone</small><strong>+221 70 646 47 85</strong></span>
+                            </a>
+                            <a href="#" class="contact-item" data-social="linkedin">
+                                <span class="ci-icon ci-linkedin"><i class="fa-brands fa-linkedin-in"></i></span>
+                                <span><small>LinkedIn</small><strong>Lamarana Bah</strong></span>
+                            </a>
+                            <a href="#" class="contact-item" data-social="github">
+                                <span class="ci-icon ci-github"><i class="fa-brands fa-github"></i></span>
+                                <span><small>GitHub</small><strong>lamabah811-web</strong></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <form class="contact-form" novalidate>
+                        <div class="form-row">
+                            <div class="field">
+                                <input type="text" id="name" name="name" placeholder=" " required>
+                                <label for="name">Votre nom</label>
+                            </div>
+                            <div class="field">
+                                <input type="email" id="email" name="email" placeholder=" " required>
+                                <label for="email">Votre email</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <input type="text" id="subject" name="subject" placeholder=" ">
+                            <label for="subject">Sujet</label>
+                        </div>
+                        <div class="field">
+                            <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+                            <label for="message">Votre message</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block magnetic">
+                            Envoyer le message <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Lamarana Bah (Lama-dev). Tous droits réservés.</p>
+    <footer class="footer">
+        <div class="container footer-inner">
+            <a href="#hero" class="logo" aria-label="Lama-dev, développeur web - Accueil"><span class="logo-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path class="lm-l" d="M14.5 13 8 20l6.5 7"/><path class="lm-s" d="M22.8 11.5 17.2 28.5"/><path class="lm-r" d="M25.5 13 32 20l-6.5 7"/></svg></span><span class="logo-text"><span class="logo-name">Lama<span class="accent">-dev</span></span><span class="logo-tag">Développeur Web</span></span></a>
+            <p>&copy; <span id="year">2026</span> Lamarana Bah (Lama-dev). Conçu & développé avec passion.</p>
+            <div class="footer-socials">
+                <a href="#" class="social" data-social="github" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="social" data-social="linkedin" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class="social" data-social="whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
         </div>
     </footer>
+
+    <a href="#" class="whatsapp-float" data-social="whatsapp" aria-label="Me contacter sur WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="wf-label">Discutons sur WhatsApp</span>
+    </a>
+    <button class="back-to-top" aria-label="Retour en haut"><i class="fa-solid fa-arrow-up"></i></button>
+    <div class="toast" role="status" aria-live="polite"></div>
 
     <script src="script.js"></script>
 </body>
