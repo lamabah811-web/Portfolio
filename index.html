@@ -175,7 +175,7 @@
 
                     <div class="stats">
                         <div class="stat-card reveal" style="--d: .05s">
-                            <span class="stat-number" data-count="3" data-suffix="">0</span>
+                            <span class="stat-number" id="stat-projects" data-count="3" data-suffix="">0</span>
                             <span class="stat-label">Projets réalisés</span>
                         </div>
                         <div class="stat-card reveal" style="--d: .1s">
@@ -183,7 +183,7 @@
                             <span class="stat-label">Formation en développement web</span>
                         </div>
                         <div class="stat-card reveal" style="--d: .15s">
-                            <span class="stat-number" data-count="6" data-suffix="">0</span>
+                            <span class="stat-number" id="stat-skills" data-count="6" data-suffix="">0</span>
                             <span class="stat-label">Technologies maîtrisées</span>
                         </div>
                         <div class="stat-card reveal" style="--d: .2s">
@@ -244,7 +244,7 @@
                 <div class="skills-layout">
                     <div class="skills-block reveal">
                         <h3 class="block-title"><i class="fa-solid fa-code"></i> Développement Web</h3>
-                        <div class="skills-grid">
+                        <div class="skills-grid" id="skills-web">
                             <div class="skill-card spotlight" style="--c: #e34f26">
                                 <i class="fa-brands fa-html5"></i><span>HTML5</span>
                             </div>
@@ -268,7 +268,7 @@
 
                     <div class="skills-block reveal" style="--d: .1s">
                         <h3 class="block-title"><i class="fa-solid fa-chart-simple"></i> Niveau de maîtrise</h3>
-                        <div class="bars">
+                        <div class="bars" id="skills-bars">
                             <div class="bar" data-level="90"><div class="bar-head"><span>HTML & CSS</span><span class="bar-val">90%</span></div><div class="bar-track"><span></span></div></div>
                             <div class="bar" data-level="85"><div class="bar-head"><span>WordPress</span><span class="bar-val">85%</span></div><div class="bar-track"><span></span></div></div>
                             <div class="bar" data-level="80"><div class="bar-head"><span>Bootstrap</span><span class="bar-val">80%</span></div><div class="bar-track"><span></span></div></div>
@@ -278,8 +278,8 @@
                     </div>
 
                     <div class="skills-block skills-office reveal" style="--d: .15s">
-                        <h3 class="block-title"><i class="fa-solid fa-briefcase"></i> Outils Bureautiques</h3>
-                        <div class="office-list">
+                        <h3 class="block-title"><i class="fa-solid fa-briefcase"></i> Outils & logiciels</h3>
+                        <div class="office-list" id="skills-tools">
                             <div class="office-item" style="--c: #2b579a"><i class="fa-solid fa-file-word"></i> Microsoft Word</div>
                             <div class="office-item" style="--c: #217346"><i class="fa-solid fa-file-excel"></i> Microsoft Excel</div>
                             <div class="office-item" style="--c: #d24726"><i class="fa-solid fa-file-powerpoint"></i> PowerPoint</div>
@@ -298,14 +298,14 @@
                     <p class="section-sub">Quelques projets qui illustrent mon savoir-faire.</p>
                 </div>
 
-                <div class="filters reveal" role="tablist">
+                <div class="filters reveal" id="project-filters">
                     <button class="filter active" data-filter="all">Tous</button>
                     <button class="filter" data-filter="wordpress">WordPress</button>
                     <button class="filter" data-filter="php">PHP</button>
                     <button class="filter" data-filter="front">Front-end</button>
                 </div>
 
-                <div class="projects-grid">
+                <div class="projects-grid" id="projects-grid">
                     <article class="project-card tilt reveal" data-category="wordpress" style="--d: .05s">
                         <div class="project-visual v-1">
                             <div class="mock-browser">
@@ -514,6 +514,8 @@
     <button class="back-to-top" aria-label="Retour en haut"><i class="fa-solid fa-arrow-up"></i></button>
     <div class="toast" role="status" aria-live="polite"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+    <script src="supabase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

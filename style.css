@@ -1353,8 +1353,24 @@ section {
     box-shadow: var(--shadow);
 }
 
-.project-card.is-hidden {
-    display: none;
+.project-card.is-hidden,
+[hidden] {
+    display: none !important;
+}
+
+.project-visual.has-image {
+    background: var(--bg-soft);
+}
+
+.project-visual.has-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .8s var(--ease);
+}
+
+.project-card:hover .project-visual.has-image img {
+    transform: scale(1.06);
 }
 
 .project-visual {

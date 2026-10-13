@@ -231,18 +231,18 @@ if (marqueeTrack) {
     marqueeTrack.innerHTML += marqueeTrack.innerHTML;
 }
 
+
 // ==========================================
 // 8. EFFETS SOURIS : HALO, SPOTLIGHT, TILT 3D, MAGNÉTIQUE
 // ==========================================
-if (!isTouch && !prefersReducedMotion) {
-    // Halo lumineux qui suit la souris
-    window.addEventListener('pointermove', (e) => {
-        root.style.setProperty('--mx', `${e.clientX}px`);
-        root.style.setProperty('--my', `${e.clientY}px`);
-    }, { passive: true });
+const hoverEffects = !isTouch && !prefersReducedMotion;
+
+// Applique les effets aux éléments d'un conteneur (aussi pour le contenu chargé plus tard)
+function bindEffects(scope = document) {
+    if (!hoverEffects) return;
 
     // Spotlight à l'intérieur des cartes
-    document.querySelectorAll('.spotlight').forEach((card) => {
+    scope.querySelectorAll('.spotlight').forEach((card) => {
         card.addEventListener('pointermove', (e) => {
             const rect = card.getBoundingClientRect();
             card.style.setProperty('--x', `${e.clientX - rect.left}px`);
@@ -251,7 +251,7 @@ if (!isTouch && !prefersReducedMotion) {
     });
 
     // Inclinaison 3D
-    document.querySelectorAll('.tilt').forEach((card) => {
+    scope.querySelectorAll('.tilt').forEach((card) => {
         const strength = card.classList.contains('photo-card') ? 10 : 6;
         card.addEventListener('pointermove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -265,7 +265,7 @@ if (!isTouch && !prefersReducedMotion) {
     });
 
     // Boutons magnétiques
-    document.querySelectorAll('.magnetic').forEach((btn) => {
+    scope.querySelectorAll('.magnetic').forEach((btn) => {
         btn.addEventListener('pointermove', (e) => {
             const rect = btn.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
@@ -278,28 +278,179 @@ if (!isTouch && !prefersReducedMotion) {
     });
 }
 
+if (hoverEffects) {
+    // Halo lumineux qui suit la souris
+    window.addEventListener('pointermove', (e) => {
+        root.style.setProperty('--mx', `${e.clientX}px`);
+        root.style.setProperty('--my', `${e.clientY}px`);
+    }, { passive: true });
+}
+bindEffects();
+
 // ==========================================
 // 9. FILTRES DES PROJETS
 // ==========================================
-const filterButtons = document.querySelectorAll('.filter');
-const projectCards = document.querySelectorAll('.project-card');
+const filtersBar = document.getElementById('project-filters');
+const projectsGrid = document.getElementById('projects-grid');
 
-filterButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-        filterButtons.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
+filtersBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter');
+    if (!btn) return;
+    filtersBar.querySelectorAll('.filter').forEach((b) => b.classList.toggle('active', b === btn));
 
-        const filter = btn.dataset.filter;
-        projectCards.forEach((card) => {
-            const match = filter === 'all' || card.dataset.category === filter;
-            card.classList.toggle('is-hidden', !match);
-            if (match) card.classList.add('visible');
-        });
+    const filter = btn.dataset.filter;
+    projectsGrid.querySelectorAll('.project-card').forEach((card) => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('is-hidden', !match);
+        if (match) card.classList.add('visible');
     });
 });
 
 // ==========================================
-// 10. FORMULAIRE DE CONTACT
+// 10. CONTENU DYNAMIQUE (SUPABASE)
+// Projets et technologies gérés depuis admin.html.
+// Sans configuration, le contenu écrit dans index.html reste affiché.
+// ==========================================
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+}
+
+// N'accepte que les liens http(s) pour éviter les liens "javascript:"
+function safeUrl(url) {
+    if (!url) return '';
+    try {
+        const u = new URL(url, window.location.href);
+        return ['http:', 'https:'].includes(u.protocol) ? u.href : '';
+    } catch (e) {
+        return '';
+    }
+}
+
+function safeColor(color) {
+    return /^#[0-9a-f]{3,8}$/i.test(color || '') ? color : '#818cf8';
+}
+
+function safeIcon(icon) {
+    return /^[a-z0-9\- ]+$/i.test(icon || '') ? icon : 'fa-solid fa-code';
+}
+
+const CATEGORY_LABELS = { wordpress: 'WordPress', php: 'PHP', front: 'Front-end', js: 'JavaScript', design: 'Design' };
+const CATEGORY_ICONS = { wordpress: 'fa-brands fa-wordpress', php: 'fa-solid fa-database', front: 'fa-solid fa-mobile-screen', js: 'fa-brands fa-js', design: 'fa-solid fa-pen-ruler' };
+
+function categoryLabel(cat) {
+    return CATEGORY_LABELS[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function setStat(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.dataset.count = value;
+    // Si le compteur a déjà été animé, on met la valeur directement
+    if (el.closest('.visible')) el.textContent = value + (el.dataset.suffix || '');
+}
+
+function projectCardHtml(p, i) {
+    const demo = safeUrl(p.demo_url);
+    const code = safeUrl(p.code_url) || CONFIG.github;
+    const image = safeUrl(p.image_url);
+    const visual = image
+        ? `<div class="project-visual has-image"><img src="${escapeHtml(image)}" alt="Aperçu du projet ${escapeHtml(p.title)}" loading="lazy"></div>`
+        : `<div class="project-visual v-${(i % 3) + 1}">
+               <div class="mock-browser">
+                   <div class="mock-bar"><i></i><i></i><i></i></div>
+                   <div class="mock-body">
+                       <div class="mock-line w60"></div>
+                       <div class="mock-line w40"></div>
+                       <div class="mock-grid"><span></span><span></span><span></span></div>
+                   </div>
+               </div>
+               <i class="${CATEGORY_ICONS[p.category] || 'fa-solid fa-code'} project-emblem"></i>
+           </div>`;
+
+    return `
+        <article class="project-card tilt reveal" data-category="${escapeHtml(p.category)}" style="--d: ${(i % 3) * 0.05 + 0.05}s">
+            ${visual}
+            <div class="project-info">
+                <div class="project-top">
+                    <span class="project-type">${escapeHtml(p.type_label || categoryLabel(p.category))}</span>
+                    <div class="project-links">
+                        ${code ? `<a href="${escapeHtml(code)}" target="_blank" rel="noopener" aria-label="Voir le code"><i class="fa-brands fa-github"></i></a>` : ''}
+                        ${demo ? `<a href="${escapeHtml(demo)}" target="_blank" rel="noopener" aria-label="Voir le site"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
+                    </div>
+                </div>
+                <h3>${escapeHtml(p.title)}</h3>
+                <p>${escapeHtml(p.description)}</p>
+                <div class="tags">${(p.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('')}</div>
+            </div>
+        </article>`;
+}
+
+function renderProjects(projects) {
+    projectsGrid.innerHTML = projects.map(projectCardHtml).join('');
+
+    const categories = [...new Set(projects.map((p) => p.category).filter(Boolean))];
+    filtersBar.innerHTML = '<button class="filter active" data-filter="all">Tous</button>' +
+        categories.map((c) => `<button class="filter" data-filter="${escapeHtml(c)}">${escapeHtml(categoryLabel(c))}</button>`).join('');
+    filtersBar.hidden = categories.length < 2;
+
+    setStat('stat-projects', projects.length);
+    projectsGrid.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+    bindEffects(projectsGrid);
+}
+
+function renderSkills(skills) {
+    const web = skills.filter((s) => s.category === 'web');
+    const tools = skills.filter((s) => s.category === 'outils');
+    const leveled = web.filter((s) => s.level > 0).sort((a, b) => b.level - a.level);
+
+    const webGrid = document.getElementById('skills-web');
+    webGrid.innerHTML = web.map((s) => `
+        <div class="skill-card spotlight" style="--c: ${safeColor(s.color)}">
+            <i class="${safeIcon(s.icon)}"></i><span>${escapeHtml(s.name)}</span>
+        </div>`).join('');
+
+    const bars = document.getElementById('skills-bars');
+    bars.innerHTML = leveled.map((s) => `
+        <div class="bar" data-level="${Number(s.level)}">
+            <div class="bar-head"><span>${escapeHtml(s.name)}</span><span class="bar-val">${Number(s.level)}%</span></div>
+            <div class="bar-track"><span></span></div>
+        </div>`).join('');
+    // Si la section est déjà apparue, on remplit les barres tout de suite
+    if (bars.closest('.visible')) {
+        requestAnimationFrame(() => bars.querySelectorAll('.bar').forEach((bar) => {
+            bar.querySelector('.bar-track span').style.width = `${bar.dataset.level}%`;
+        }));
+    }
+    bars.closest('.skills-block').hidden = leveled.length === 0;
+
+    const toolsList = document.getElementById('skills-tools');
+    toolsList.innerHTML = tools.map((s) => `
+        <div class="office-item" style="--c: ${safeColor(s.color)}"><i class="${safeIcon(s.icon)}"></i> ${escapeHtml(s.name)}</div>`).join('');
+    toolsList.closest('.skills-block').hidden = tools.length === 0;
+
+    setStat('stat-skills', web.length);
+    bindEffects(webGrid);
+}
+
+async function loadContent() {
+    if (!window.db) return;
+    try {
+        const [projects, skills] = await Promise.all([
+            db.from('projects').select('*').order('position').order('created_at'),
+            db.from('skills').select('*').order('position').order('created_at')
+        ]);
+        if (!projects.error && projects.data.length) renderProjects(projects.data);
+        if (!skills.error && skills.data.length) renderSkills(skills.data);
+    } catch (e) {
+        console.warn('Contenu dynamique indisponible, affichage du contenu par défaut.', e);
+    }
+}
+loadContent();
+
+// ==========================================
+// 11. FORMULAIRE DE CONTACT
 // ==========================================
 const toast = document.querySelector('.toast');
 let toastTimer;
@@ -316,7 +467,9 @@ function showToast(message, isError = false) {
 
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    const submitBtn = contactForm.querySelector('[type="submit"]');
+
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         let valid = true;
@@ -332,14 +485,30 @@ if (contactForm) {
         }
 
         const data = new FormData(contactForm);
-        if (CONFIG.email) {
-            // Ouvre la messagerie du visiteur avec le message pré-rempli
-            const subject = data.get('subject') || `Nouveau message de ${data.get('name')}`;
-            const body = `${data.get('message')}\n\n${data.get('name')} (${data.get('email')})`;
+        const message = {
+            name: data.get('name').trim(),
+            email: data.get('email').trim(),
+            subject: data.get('subject').trim() || null,
+            message: data.get('message').trim()
+        };
+
+        if (window.db) {
+            // Enregistre le message : il apparaît dans l'espace admin
+            submitBtn.disabled = true;
+            const { error } = await db.from('messages').insert(message);
+            submitBtn.disabled = false;
+            if (error) {
+                showToast("Oups, l'envoi a échoué. Réessayez ou contactez-moi sur WhatsApp.", true);
+                return;
+            }
+        } else if (CONFIG.email) {
+            // Sans base de données : ouvre la messagerie du visiteur avec le message pré-rempli
+            const subject = message.subject || `Nouveau message de ${message.name}`;
+            const body = `${message.message}\n\n${message.name} (${message.email})`;
             window.location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
 
-        showToast(`Merci ${data.get('name')} ! Je vous répondrai dans les plus brefs délais.`);
+        showToast(`Merci ${message.name} ! Je vous répondrai dans les plus brefs délais.`);
         contactForm.reset();
     });
 
